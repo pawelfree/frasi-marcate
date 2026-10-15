@@ -750,10 +750,37 @@ input:disabled {
 .form-legend {
   display: flex;
   align-items: center;
+  justify-content: space-between;
   gap: 16px;
+  flex-wrap: wrap;
   margin-bottom: 16px;
   color: var(--muted);
   font-size: 12px;
+}
+
+.form-legend-labels {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.optional-fields-toggle {
+  padding: 7px 11px;
+  border: 1px solid #b8c9bd;
+  border-radius: 20px;
+  background: white;
+  color: var(--green);
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.optional-fields-toggle:hover,
+.optional-fields-toggle:focus-visible {
+  border-color: var(--green);
+  background: var(--mint);
+  outline: none;
 }
 
 .required-mark {
@@ -841,6 +868,44 @@ input:disabled {
   align-items: center;
   justify-content: space-between;
   gap: 8px;
+}
+
+.field-indicators {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.optional-collapsed {
+  min-height: 41px;
+  justify-content: center;
+  padding: 8px 10px;
+  border: 1px dashed var(--line);
+  border-radius: 9px;
+  background: #fbfcfa;
+}
+
+.optional-toggle {
+  display: inline-grid;
+  width: 23px;
+  height: 23px;
+  padding: 0;
+  place-items: center;
+  border: 1px solid #b8c9bd;
+  border-radius: 50%;
+  background: white;
+  color: var(--green);
+  font-size: 17px;
+  font-weight: 700;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.optional-toggle:hover,
+.optional-toggle:focus-visible {
+  border-color: var(--green);
+  background: var(--mint);
+  outline: none;
 }
 
 .required-badge,

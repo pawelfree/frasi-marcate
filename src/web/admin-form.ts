@@ -13,6 +13,7 @@ export class InteractiveEditor {
     private readonly root: HTMLElement,
     private readonly t: Translate,
     private readonly onChange: (record: ExampleRecord) => void,
+    private readonly onOptionalVisibilityChange: () => void,
   ) {}
 
   setRecord(record: ExampleRecord | null): void {
@@ -24,6 +25,7 @@ export class InteractiveEditor {
     this.root.replaceChildren();
     if (!this.record) {
       this.root.append(this.element("p", "empty-form", this.t("noRecord")));
+      this.onOptionalVisibilityChange();
       return;
     }
 
@@ -35,6 +37,19 @@ export class InteractiveEditor {
       this.renderSpans(),
       this.renderTranslations(),
     );
+    this.onOptionalVisibilityChange();
+  }
+
+  allOptionalFieldsOpen(): boolean {
+    const controls = this.optionalControls();
+    return controls.length > 0 && controls.every((control) => !control.hidden);
+  }
+
+  setAllOptionalFields(open: boolean): void {
+    this.root
+      .querySelectorAll<HTMLElement>(".form-field[data-optional-field]")
+      .forEach((field) => this.setOptionalFieldOpen(field, open));
+    this.onOptionalVisibilityChange();
   }
 
   private renderBasics(): HTMLElement {
@@ -555,11 +570,28 @@ export class InteractiveEditor {
   ): HTMLElement {
     const label = this.element("label", `form-field${wide ? " wide" : ""}`);
     const heading = this.element("span", "field-heading");
-    heading.append(
-      document.createTextNode(this.t(labelKey)),
-      this.badge(required),
-    );
+    heading.append(document.createTextNode(this.t(labelKey)));
+
+    const indicators = this.element("span", "field-indicators");
+    indicators.append(this.badge(required));
+    if (!required) {
+      label.dataset.optionalField = "true";
+      control.classList.add("optional-control");
+      if (this.controlIsEmpty(control)) control.hidden = true;
+      const toggle = this.element("button", "optional-toggle");
+      toggle.type = "button";
+      toggle.addEventListener("click", (event) => {
+        event.preventDefault();
+        event.stopPropagation();
+        this.setOptionalFieldOpen(label, control.hidden);
+        if (!control.hidden) control.focus();
+        this.onOptionalVisibilityChange();
+      });
+      indicators.append(toggle);
+    }
+    heading.append(indicators);
     label.append(heading, control);
+    if (!required) this.setOptionalFieldOpen(label, !control.hidden);
     if (hintKey)
       label.append(this.element("small", "field-hint", this.t(hintKey)));
     return label;
@@ -579,6 +611,39 @@ export class InteractiveEditor {
       "span",
       required ? "required-badge" : "optional-badge",
       required ? this.t("requiredShort") : this.t("optionalShort"),
+    );
+  }
+
+  private controlIsEmpty(control: HTMLElement): boolean {
+    if (
+      control instanceof HTMLInputElement ||
+      control instanceof HTMLTextAreaElement ||
+      control instanceof HTMLSelectElement
+    )
+      return control.value.trim() === "";
+    return false;
+  }
+
+  private optionalControls(): HTMLElement[] {
+    return Array.from(
+      this.root.querySelectorAll<HTMLElement>(".optional-control"),
+    );
+  }
+
+  private setOptionalFieldOpen(field: HTMLElement, open: boolean): void {
+    const control = field.querySelector<HTMLElement>(".optional-control");
+    const toggle = field.querySelector<HTMLButtonElement>(".optional-toggle");
+    if (!control || !toggle) return;
+    control.hidden = !open;
+    field.classList.toggle("optional-collapsed", !open);
+    toggle.textContent = open ? "−" : "+";
+    const fieldName =
+      field.querySelector(".field-heading")?.firstChild?.textContent;
+    toggle.setAttribute(
+      "aria-label",
+      this.t(open ? "closeOptionalField" : "openOptionalField", {
+        field: fieldName ?? "",
+      }),
     );
   }
 

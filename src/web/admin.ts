@@ -22,7 +22,16 @@ const interactiveEditor = new InteractiveEditor(
     $("#json").value = JSON.stringify(record, null, 2);
     setSyncStatus("formSynced", false);
   },
+  updateOptionalFieldsToggle,
 );
+
+function updateOptionalFieldsToggle(): void {
+  const button = $("#toggle-optional-fields");
+  const allOpen = interactiveEditor.allOptionalFieldsOpen();
+  button.textContent = t(
+    allOpen ? "closeAllOptionalFields" : "openAllOptionalFields",
+  );
+}
 
 function status(message: string, bad = false): void {
   const node = $("#status");
@@ -175,6 +184,12 @@ document.querySelectorAll<HTMLElement>("[data-editor-tab]").forEach((tab) => {
   );
 });
 
+$("#toggle-optional-fields").onclick = () => {
+  interactiveEditor.setAllOptionalFields(
+    !interactiveEditor.allOptionalFieldsOpen(),
+  );
+};
+
 $("#json").addEventListener("input", () => {
   try {
     currentRecord = parseJsonEditor();
@@ -281,6 +296,7 @@ document.addEventListener("languagechange", () => {
   setAuthenticated(authenticated);
   if (activeEditor === "form" && currentRecord)
     interactiveEditor.setRecord(currentRecord);
+  updateOptionalFieldsToggle();
 });
 
 initialize();

@@ -113,13 +113,23 @@
             hidden
           >
             <div class="form-legend">
-              <span
-                ><b class="required-mark">*</b>
-                <span data-i18n="requiredField">pole wymagane</span></span
+              <div class="form-legend-labels">
+                <span
+                  ><b class="required-mark">*</b>
+                  <span data-i18n="requiredField">pole wymagane</span></span
+                >
+                <span class="optional-badge" data-i18n="optionalField"
+                  >wartość opcjonalna — użyj +/−, aby otworzyć lub zamknąć</span
+                >
+              </div>
+              <button
+                id="toggle-optional-fields"
+                class="optional-fields-toggle"
+                type="button"
+                data-i18n="openAllOptionalFields"
               >
-              <span class="optional-badge" data-i18n="optionalField"
-                >wartość opcjonalna</span
-              >
+                Otwórz wszystkie pola opcjonalne
+              </button>
             </div>
             <div id="interactive-form" class="interactive-form"></div>
           </div>
