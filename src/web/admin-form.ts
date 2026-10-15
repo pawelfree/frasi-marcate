@@ -41,16 +41,6 @@ export class InteractiveEditor {
     const record = this.record!;
     return this.section("formBasics", "formBasicsHint", [
       this.field(
-        "fieldId",
-        true,
-        this.input(record.id, (value) => (record.id = value)),
-      ),
-      this.field(
-        "fieldSchemaVersion",
-        true,
-        this.input(record.schema_version, () => undefined, { readOnly: true }),
-      ),
-      this.field(
         "fieldSentence",
         true,
         this.textarea(record.sentence, (value) => (record.sentence = value)),
@@ -394,22 +384,13 @@ export class InteractiveEditor {
     const card = this.element("article", "span-editor");
     const header = this.element("div", "span-editor-header");
     header.append(
-      this.element(
-        "h4",
-        "",
-        `${this.t("spanLabel")} ${index + 1} · ${span.id}`,
-      ),
+      this.element("h4", "", `${this.t("spanLabel")} ${index + 1}`),
       this.actionButton("removeSpan", "remove-button", () =>
         this.removeSpan(index),
       ),
     );
     const fields = this.element("div", "form-grid");
     fields.append(
-      this.field(
-        "fieldSpanId",
-        true,
-        this.input(span.id, (value) => this.renameSpan(span.id, value, span)),
-      ),
       this.field(
         "fieldSpanText",
         true,
@@ -604,12 +585,11 @@ export class InteractiveEditor {
   private input(
     value: string,
     update: (value: string) => void,
-    options: { type?: string; readOnly?: boolean } = {},
+    options: { type?: string } = {},
   ): HTMLInputElement {
     const input = document.createElement("input");
     input.type = options.type ?? "text";
     input.value = value;
-    input.readOnly = options.readOnly ?? false;
     input.addEventListener("input", () => {
       update(input.value);
       this.changed();
@@ -671,9 +651,11 @@ export class InteractiveEditor {
   private relationSelect(span: SpanAnnotation): HTMLSelectElement {
     const select = document.createElement("select");
     select.append(new Option(this.t("noRelation"), ""));
-    for (const candidate of this.record!.annotation.spans) {
+    for (const [index, candidate] of this.record!.annotation.spans.entries()) {
       if (candidate === span) continue;
-      select.append(new Option(candidate.id, candidate.id));
+      const text = candidate.text.trim();
+      const label = `${this.t("spanLabel")} ${index + 1}${text ? ` — ${text}` : ""}`;
+      select.append(new Option(label, candidate.id));
     }
     select.value = span.relation_to ?? "";
     select.addEventListener("change", () => {
@@ -719,18 +701,6 @@ export class InteractiveEditor {
     let number = 1;
     while (used.has(`s${number}`)) number += 1;
     return `s${number}`;
-  }
-
-  private renameSpan(oldId: string, newId: string, span: SpanAnnotation): void {
-    span.id = newId;
-    for (const language of ["pl", "it"] as Language[]) {
-      const notes = this.record!.translations[language].span_notes;
-      notes[newId] = notes[oldId] ?? "";
-      if (newId !== oldId) delete notes[oldId];
-    }
-    for (const candidate of this.record!.annotation.spans) {
-      if (candidate.relation_to === oldId) candidate.relation_to = newId;
-    }
   }
 
   private removeSpan(index: number): void {

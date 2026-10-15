@@ -88,7 +88,7 @@ export const I18n = (() => {
       jsonHasErrors: "JSON ma błąd składniowy.",
       jsonInvalidForForm: "Popraw składnię JSON-u przed otwarciem formularza.",
       formBasics: "Dane podstawowe",
-      formBasicsHint: "Identyfikator, wersja schematu i analizowane zdanie.",
+      formBasicsHint: "Treść analizowanego zdania.",
       formContext: "Kontekst",
       formContextHint:
         "Kontekst pomaga rozstrzygać strukturę informacyjną; puste wartości zostaną zapisane jako null.",
@@ -103,8 +103,6 @@ export const I18n = (() => {
       formTranslations: "Treści polskie i włoskie",
       formTranslationsHint:
         "Te teksty są wyświetlane użytkownikowi po zmianie języka aplikacji.",
-      fieldId: "Identyfikator rekordu",
-      fieldSchemaVersion: "Wersja schematu",
       fieldSentence: "Zdanie",
       sentenceHint:
         "Zmiana zdania może wymagać ponownego wyznaczenia offsetów segmentów.",
@@ -139,7 +137,6 @@ export const I18n = (() => {
       addSpan: "+ Dodaj segment",
       removeSpan: "Usuń segment",
       spanLabel: "Segment",
-      fieldSpanId: "Identyfikator segmentu",
       fieldSpanText: "Tekst segmentu",
       fieldStart: "Początek offsetu",
       fieldEnd: "Koniec offsetu",
@@ -309,8 +306,7 @@ export const I18n = (() => {
       jsonInvalidForForm:
         "Correggi la sintassi JSON prima di aprire il modulo.",
       formBasics: "Dati principali",
-      formBasicsHint:
-        "Identificatore, versione dello schema e frase analizzata.",
+      formBasicsHint: "Testo della frase analizzata.",
       formContext: "Contesto",
       formContextHint:
         "Il contesto aiuta a interpretare la struttura informativa; i valori vuoti saranno salvati come null.",
@@ -326,8 +322,6 @@ export const I18n = (() => {
       formTranslations: "Contenuti in polacco e italiano",
       formTranslationsHint:
         "Questi testi sono mostrati all’utente quando cambia la lingua dell’applicazione.",
-      fieldId: "Identificatore del record",
-      fieldSchemaVersion: "Versione dello schema",
       fieldSentence: "Frase",
       sentenceHint:
         "La modifica della frase può richiedere il ricalcolo degli intervalli dei segmenti.",
@@ -362,7 +356,6 @@ export const I18n = (() => {
       addSpan: "+ Aggiungi segmento",
       removeSpan: "Rimuovi segmento",
       spanLabel: "Segmento",
-      fieldSpanId: "Identificatore del segmento",
       fieldSpanText: "Testo del segmento",
       fieldStart: "Inizio dell’intervallo",
       fieldEnd: "Fine dell’intervallo",

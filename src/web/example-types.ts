@@ -73,7 +73,7 @@ export function createEmptyRecord(): ExampleRecord {
   });
 
   return {
-    id: "ref-new-001",
+    id: `ref-${crypto.randomUUID()}`,
     schema_version: "1.0",
     sentence: "",
     context: { preceding: null, following: null, context_note: "" },

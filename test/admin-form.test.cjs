@@ -9,12 +9,15 @@ test("nowy rekord formularza ma pełną strukturę zgodną ze schematem", async 
     `data:text/javascript;base64,${Buffer.from(source).toString("base64")}`
   );
   const record = module.createEmptyRecord();
+  const anotherRecord = module.createEmptyRecord();
   record.sentence = "Ciao.";
 
   const store = new ExampleStore();
   const validation = store.validate(record);
 
   assert.equal(validation.valid, true, validation.errors?.join("\n"));
+  assert.match(record.id, /^ref-[a-z0-9-]{3,63}$/);
+  assert.notEqual(record.id, anotherRecord.id);
   assert.deepEqual(Object.keys(record.translations).sort(), ["it", "pl"]);
   assert.deepEqual(record.annotation.spans, []);
   assert.deepEqual(record.annotation.pragmatic_function, []);
