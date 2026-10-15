@@ -291,6 +291,12 @@ input {
   align-items: center;
   margin: 12px 0 20px;
 }
+.sentence-translation {
+  margin: -8px 0 20px;
+  color: var(--muted);
+  font-size: 14px;
+  font-style: italic;
+}
 .segment {
   border: 1px solid transparent;
   border-radius: 10px;
@@ -856,6 +862,10 @@ input:disabled {
 }
 
 .form-field textarea {
+  height: calc(1.4em + 22px);
+  min-height: calc(1.4em + 22px);
+  max-height: calc(4.2em + 22px);
+  line-height: 1.4;
   resize: vertical;
 }
 

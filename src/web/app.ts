@@ -23,13 +23,14 @@ function roleClass(span) {
   if (span.syntactic_role.startsWith("dislocated")) return "dislocated";
   return "other";
 }
-function note(example, key, fallback) {
-  return example.translations?.[I18n.language]?.[key] || fallback;
+function description(example, key) {
+  return example.descriptions?.[I18n.language]?.[key] || "";
 }
 function spanNote(example, span) {
-  return (
-    example.translations?.[I18n.language]?.span_notes?.[span.id] || span.note
-  );
+  return example.descriptions?.[I18n.language]?.spans?.[span.id] || "";
+}
+function spanText(example, span) {
+  return Array.from(example.sentence).slice(span.start, span.end).join("");
 }
 async function load() {
   try {
@@ -84,7 +85,7 @@ function renderExplorer() {
       sentence.append(
         el("span", "plain-fragment", chars.slice(cursor, span.start).join("")),
       );
-    const button = el("button", "segment", span.text);
+    const button = el("button", "segment", spanText(x, span));
     button.type = "button";
     button.dataset.role = roleClass(span);
     button.addEventListener("click", () => selectSpan(span, button));
@@ -94,6 +95,15 @@ function renderExplorer() {
   if (cursor < chars.length)
     sentence.append(el("span", "plain-fragment", chars.slice(cursor).join("")));
   root.append(sentence);
+  const translatedSentence = x.sentence_translations?.[I18n.language] || "";
+  if (translatedSentence && translatedSentence !== x.sentence)
+    root.append(
+      el(
+        "p",
+        "sentence-translation",
+        `${t("sentenceTranslation")}: ${translatedSentence}`,
+      ),
+    );
   const legend = el("div", "legend");
   for (const key of [
     "legendDislocated",
@@ -114,24 +124,13 @@ function renderExplorer() {
   neutral.append(
     el("div", "micro", t("neutralHeading")),
     el("h3", "", a.neutral_variant?.text || t("noProposal")),
-    el(
-      "p",
-      "",
-      a.neutral_variant
-        ? note(x, "neutral_note", a.neutral_variant.note)
-        : t("noVariant"),
-    ),
+    el("p", "", a.neutral_variant ? description(x, "neutral") : t("noVariant")),
   );
   const info = el("div", "info-card");
   info.append(
     el("div", "micro", t("infoHeading")),
-    el(
-      "h3",
-      "",
-      note(x, "information_note", a.information_note) ||
-        t("unknownInterpretation"),
-    ),
-    el("p", "", note(x, "pragmatic_note", a.pragmatic_note)),
+    el("h3", "", description(x, "information") || t("unknownInterpretation")),
+    el("p", "", description(x, "pragmatic")),
   );
   grid.append(neutral, info);
   root.append(grid);
@@ -141,7 +140,7 @@ function renderExplorer() {
   for (const span of spans) {
     const box = el("div", "structure-item " + roleClass(span));
     box.append(
-      el("div", "", span.text),
+      el("div", "", spanText(x, span)),
       el("small", "", t(span.syntactic_role)),
     );
     list.append(box);
@@ -156,7 +155,7 @@ function renderExplorer() {
     el(
       "div",
       "source-note",
-      `${t("context")}: ${x.context.preceding || t("notProvided")} · ${t("source")}: ${sourceValue} · ${t("certainty")}: ${t(a.certainty)}. ${a.prosody_note ? note(x, "prosody_note", a.prosody_note) : t("noProsody")}`,
+      `${t("context")}: ${x.context.preceding || t("notProvided")} · ${t("source")}: ${sourceValue} · ${t("certainty")}: ${t(a.certainty)}. ${description(x, "prosody") || t("noProsody")}`,
     ),
   );
   const first = sentence.querySelector("button");
@@ -182,7 +181,7 @@ function selectSpan(span, button) {
       "p",
       "",
       spanNote(current, span) +
-        (related ? ` ${t("relatedTo")}: „${related.text}”.` : ""),
+        (related ? ` ${t("relatedTo")}: „${spanText(current, related)}”.` : ""),
     ),
   );
 }
@@ -220,8 +219,8 @@ $("#analysis-form").addEventListener("submit", async (event) => {
         "",
         `${t(out.construction)} · ${t("certainty")}: ${t(out.certainty)}`,
       ),
-      el("p", "", out.evidence_note || out.explanation || ""),
-      el("p", "", out.information_note || ""),
+      el("p", "", out.descriptions?.evidence || out.explanation || ""),
+      el("p", "", out.descriptions?.information || ""),
       el("small", "", `${t("automaticResult")} · ${out.model || ""}`),
     );
   } catch (error) {
@@ -241,7 +240,7 @@ function renderQuiz() {
   empty.value = "";
   select.append(empty);
   for (const span of quiz.annotation.spans) {
-    const option = el("option", "", span.text);
+    const option = el("option", "", spanText(quiz, span));
     option.value = span.id;
     select.append(option);
   }
@@ -260,7 +259,7 @@ function showQuizResult() {
   box.className = "feedback" + (correctClass && correctSpan ? "" : " error");
   box.textContent =
     (correctClass && correctSpan ? t("quizCorrect") : t("quizRetry")) +
-    `${t("construction")}: ${t(quiz.annotation.construction)}. ${t("keySegment")}: „${target?.text || t("noneShort")}”. ${note(quiz, "evidence_note", quiz.annotation.evidence_note)}`;
+    `${t("construction")}: ${t(quiz.annotation.construction)}. ${t("keySegment")}: „${target ? spanText(quiz, target) : t("noneShort")}”. ${description(quiz, "evidence")}`;
   quizChecked = true;
 }
 $("#quiz-next").addEventListener("click", renderQuiz);

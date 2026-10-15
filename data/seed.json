@@ -1,7 +1,7 @@
 [
   {
     "id": "ref-left-001",
-    "schema_version": "1.0",
+    "schema_version": "2.0",
     "sentence": "Questo libro, l'ho comprato ieri.",
     "context": {
       "preceding": "Che cosa hai fatto con il libro che ti ho consigliato?",
@@ -27,92 +27,84 @@
       "spans": [
         {
           "id": "s1",
-          "text": "Questo libro",
           "start": 0,
           "end": 12,
           "syntactic_role": "dislocated_object",
           "information_role": "topic",
           "relation_to": "s2",
-          "note": "Dopełnienie przed klauzą."
+          "text": "Questo libro"
         },
         {
           "id": "s2",
-          "text": "l'",
           "start": 14,
           "end": 16,
           "syntactic_role": "resumptive_clitic",
           "information_role": null,
           "relation_to": "s1",
-          "note": "Klityk w klauzie odnosi się do książki."
+          "text": "l'"
         },
         {
           "id": "s3",
-          "text": "ho comprato",
           "start": 16,
           "end": 27,
           "syntactic_role": "predicate",
           "information_role": null,
           "relation_to": null,
-          "note": "Orzeczenie."
+          "text": "ho comprato"
         },
         {
           "id": "s4",
-          "text": "ieri",
           "start": 28,
           "end": 32,
           "syntactic_role": "time_adjunct",
           "information_role": null,
           "relation_to": null,
-          "note": "Okolicznik czasu."
+          "text": "ieri"
         }
       ],
       "neutral_variant": {
         "text": "Ho comprato questo libro ieri.",
-        "status": "proposed_paraphrase",
-        "note": "Parafraza porównawcza, nie jedyny możliwy odpowiednik."
+        "status": "proposed_paraphrase"
       },
-      "pragmatic_function": [
-        "topic_continuity"
-      ],
-      "pragmatic_note": "Interpretacja zależy od skonstruowanego kontekstu; bez niego nie byłaby rozstrzygająca.",
-      "information_note": "W podanym kontekście książka jest już znanym przedmiotem rozmowy.",
-      "prosody_note": null,
-      "evidence_note": "Dopełnienie po lewej stronie jest podjęte klitykiem.",
+      "pragmatic_function": ["topic_continuity"],
       "annotator_id": "demo",
       "review_status": "reviewed"
     },
-    "translations": {
+    "descriptions": {
       "pl": {
-        "information_note": "W podanym kontekście książka jest już znanym przedmiotem rozmowy.",
-        "pragmatic_note": "Interpretacja zależy od skonstruowanego kontekstu; bez niego nie byłaby rozstrzygająca.",
-        "evidence_note": "Dopełnienie po lewej stronie jest podjęte klitykiem.",
-        "neutral_note": "Parafraza porównawcza, nie jedyny możliwy odpowiednik.",
-        "span_notes": {
+        "information": "W podanym kontekście książka jest już znanym przedmiotem rozmowy.",
+        "pragmatic": "Interpretacja zależy od skonstruowanego kontekstu; bez niego nie byłaby rozstrzygająca.",
+        "evidence": "Dopełnienie po lewej stronie jest podjęte klitykiem.",
+        "neutral": "Parafraza porównawcza, nie jedyny możliwy odpowiednik.",
+        "prosody": null,
+        "spans": {
           "s1": "Dopełnienie przed klauzą.",
           "s2": "Klityk w klauzie odnosi się do książki.",
           "s3": "Orzeczenie.",
           "s4": "Okolicznik czasu."
-        },
-        "prosody_note": null
+        }
       },
       "it": {
-        "information_note": "Nel contesto proposto, il libro è già noto ai partecipanti alla conversazione.",
-        "pragmatic_note": "L’interpretazione dipende dal contesto costruito; senza di esso non sarebbe conclusiva.",
-        "evidence_note": "L’oggetto a sinistra della proposizione è ripreso da un clitico.",
-        "neutral_note": "Parafrasi di confronto, non l’unica formulazione possibile.",
-        "span_notes": {
+        "information": "Nel contesto proposto, il libro è già noto ai partecipanti alla conversazione.",
+        "pragmatic": "L’interpretazione dipende dal contesto costruito; senza di esso non sarebbe conclusiva.",
+        "evidence": "L’oggetto a sinistra della proposizione è ripreso da un clitico.",
+        "neutral": "Parafrasi di confronto, non l’unica formulazione possibile.",
+        "prosody": null,
+        "spans": {
           "s1": "Oggetto collocato prima della proposizione.",
           "s2": "Il clitico nella proposizione rinvia al libro.",
           "s3": "Predicato.",
           "s4": "Complemento di tempo."
-        },
-        "prosody_note": null
+        }
       }
+    },
+    "sentence_translations": {
+      "pl": "Tę książkę kupiłem wczoraj."
     }
   },
   {
     "id": "ref-right-001",
-    "schema_version": "1.0",
+    "schema_version": "2.0",
     "sentence": "L'ho comprato ieri, questo libro.",
     "context": {
       "preceding": "Hai già comprato quel libro?",
@@ -138,92 +130,84 @@
       "spans": [
         {
           "id": "s1",
-          "text": "L'",
           "start": 0,
           "end": 2,
           "syntactic_role": "resumptive_clitic",
           "information_role": null,
           "relation_to": "s3",
-          "note": "Klityk wyprzedza składnik prawostronny."
+          "text": "L'"
         },
         {
           "id": "s2",
-          "text": "ho comprato",
           "start": 2,
           "end": 13,
           "syntactic_role": "predicate",
           "information_role": null,
           "relation_to": null,
-          "note": "Orzeczenie."
+          "text": "ho comprato"
         },
         {
           "id": "s3",
-          "text": "questo libro",
           "start": 20,
           "end": 32,
           "syntactic_role": "dislocated_object",
           "information_role": "background",
           "relation_to": "s1",
-          "note": "Składnik po prawej stronie klauzy."
+          "text": "questo libro"
         },
         {
           "id": "s4",
-          "text": "ieri",
           "start": 14,
           "end": 18,
           "syntactic_role": "time_adjunct",
           "information_role": null,
           "relation_to": null,
-          "note": "Okolicznik czasu."
+          "text": "ieri"
         }
       ],
       "neutral_variant": {
         "text": "Ho comprato questo libro ieri.",
-        "status": "proposed_paraphrase",
-        "note": "Parafraza porównawcza, nie jedyny możliwy odpowiednik."
+        "status": "proposed_paraphrase"
       },
-      "pragmatic_function": [
-        "referent_clarification"
-      ],
-      "pragmatic_note": "Interpretacja zależy od skonstruowanego kontekstu; bez niego nie byłaby rozstrzygająca.",
-      "information_note": "W kontekście pytania książka jest już aktywna w rozmowie; rozstrzygnięcie prozodyczne wymagałoby nagrania.",
-      "prosody_note": null,
-      "evidence_note": "Klityk występuje przed rzeczownikowym dopełnieniem na prawym obrzeżu.",
+      "pragmatic_function": ["referent_clarification"],
       "annotator_id": "demo",
       "review_status": "reviewed"
     },
-    "translations": {
+    "descriptions": {
       "pl": {
-        "information_note": "W kontekście pytania książka jest już aktywna w rozmowie; rozstrzygnięcie prozodyczne wymagałoby nagrania.",
-        "pragmatic_note": "Interpretacja zależy od skonstruowanego kontekstu; bez niego nie byłaby rozstrzygająca.",
-        "evidence_note": "Klityk występuje przed rzeczownikowym dopełnieniem na prawym obrzeżu.",
-        "neutral_note": "Parafraza porównawcza, nie jedyny możliwy odpowiednik.",
-        "span_notes": {
+        "information": "W kontekście pytania książka jest już aktywna w rozmowie; rozstrzygnięcie prozodyczne wymagałoby nagrania.",
+        "pragmatic": "Interpretacja zależy od skonstruowanego kontekstu; bez niego nie byłaby rozstrzygająca.",
+        "evidence": "Klityk występuje przed rzeczownikowym dopełnieniem na prawym obrzeżu.",
+        "neutral": "Parafraza porównawcza, nie jedyny możliwy odpowiednik.",
+        "prosody": null,
+        "spans": {
           "s1": "Klityk wyprzedza składnik prawostronny.",
           "s2": "Orzeczenie.",
           "s3": "Składnik po prawej stronie klauzy.",
           "s4": "Okolicznik czasu."
-        },
-        "prosody_note": null
+        }
       },
       "it": {
-        "information_note": "Nel contesto della domanda, il libro è già presente nel discorso; per una valutazione prosodica servirebbe una registrazione.",
-        "pragmatic_note": "L’interpretazione dipende dal contesto costruito; senza di esso non sarebbe conclusiva.",
-        "evidence_note": "Il clitico precede l’oggetto nominale situato alla periferia destra.",
-        "neutral_note": "Parafrasi di confronto, non l’unica formulazione possibile.",
-        "span_notes": {
+        "information": "Nel contesto della domanda, il libro è già presente nel discorso; per una valutazione prosodica servirebbe una registrazione.",
+        "pragmatic": "L’interpretazione dipende dal contesto costruito; senza di esso non sarebbe conclusiva.",
+        "evidence": "Il clitico precede l’oggetto nominale situato alla periferia destra.",
+        "neutral": "Parafrasi di confronto, non l’unica formulazione possibile.",
+        "prosody": null,
+        "spans": {
           "s1": "Il clitico precede il costituente a destra.",
           "s2": "Predicato.",
           "s3": "Costituente alla periferia destra della proposizione.",
           "s4": "Complemento di tempo."
-        },
-        "prosody_note": null
+        }
       }
+    },
+    "sentence_translations": {
+      "pl": "Kupiłem ją wczoraj, tę książkę."
     }
   },
   {
     "id": "ref-cleft-001",
-    "schema_version": "1.0",
+    "schema_version": "2.0",
     "sentence": "È Maria che ha preparato la cena.",
     "context": {
       "preceding": "Chi ha preparato la cena?",
@@ -249,80 +233,73 @@
       "spans": [
         {
           "id": "s1",
-          "text": "È",
           "start": 0,
           "end": 1,
           "syntactic_role": "copula",
           "information_role": null,
           "relation_to": null,
-          "note": "Kopuła konstrukcji rozszczepionej."
+          "text": "È"
         },
         {
           "id": "s2",
-          "text": "Maria",
           "start": 2,
           "end": 7,
           "syntactic_role": "cleft_focus",
           "information_role": "focus",
           "relation_to": null,
-          "note": "Wskazany uczestnik zdarzenia."
+          "text": "Maria"
         },
         {
           "id": "s3",
-          "text": "che ha preparato la cena",
           "start": 8,
           "end": 32,
           "syntactic_role": "relative_clause",
           "information_role": "background",
           "relation_to": null,
-          "note": "Człon zdaniowy."
+          "text": "che ha preparato la cena"
         }
       ],
       "neutral_variant": {
         "text": "Maria ha preparato la cena.",
-        "status": "proposed_paraphrase",
-        "note": "Parafraza porównawcza, nie jedyny możliwy odpowiednik."
+        "status": "proposed_paraphrase"
       },
-      "pragmatic_function": [
-        "answer_focus"
-      ],
-      "pragmatic_note": "Interpretacja zależy od skonstruowanego kontekstu; bez niego nie byłaby rozstrzygająca.",
-      "information_note": "Pytanie poprzedzające uzasadnia odczytanie „Maria” jako fokusu.",
-      "prosody_note": null,
-      "evidence_note": "Konstrukcja è X che… wyróżnia Marię na tle pytania o wykonawcę.",
+      "pragmatic_function": ["answer_focus"],
       "annotator_id": "demo",
       "review_status": "reviewed"
     },
-    "translations": {
+    "descriptions": {
       "pl": {
-        "information_note": "Pytanie poprzedzające uzasadnia odczytanie „Maria” jako fokusu.",
-        "pragmatic_note": "Interpretacja zależy od skonstruowanego kontekstu; bez niego nie byłaby rozstrzygająca.",
-        "evidence_note": "Konstrukcja è X che… wyróżnia Marię na tle pytania o wykonawcę.",
-        "neutral_note": "Parafraza porównawcza, nie jedyny możliwy odpowiednik.",
-        "span_notes": {
+        "information": "Pytanie poprzedzające uzasadnia odczytanie „Maria” jako fokusu.",
+        "pragmatic": "Interpretacja zależy od skonstruowanego kontekstu; bez niego nie byłaby rozstrzygająca.",
+        "evidence": "Konstrukcja è X che… wyróżnia Marię na tle pytania o wykonawcę.",
+        "neutral": "Parafraza porównawcza, nie jedyny możliwy odpowiednik.",
+        "prosody": null,
+        "spans": {
           "s1": "Kopuła konstrukcji rozszczepionej.",
           "s2": "Wskazany uczestnik zdarzenia.",
           "s3": "Człon zdaniowy."
-        },
-        "prosody_note": null
+        }
       },
       "it": {
-        "information_note": "La domanda precedente giustifica l’interpretazione di «Maria» come focus.",
-        "pragmatic_note": "L’interpretazione dipende dal contesto costruito; senza di esso non sarebbe conclusiva.",
-        "evidence_note": "La struttura è X che… mette in rilievo Maria in risposta alla domanda sull’agente.",
-        "neutral_note": "Parafrasi di confronto, non l’unica formulazione possibile.",
-        "span_notes": {
+        "information": "La domanda precedente giustifica l’interpretazione di «Maria» come focus.",
+        "pragmatic": "L’interpretazione dipende dal contesto costruito; senza di esso non sarebbe conclusiva.",
+        "evidence": "La struttura è X che… mette in rilievo Maria in risposta alla domanda sull’agente.",
+        "neutral": "Parafrasi di confronto, non l’unica formulazione possibile.",
+        "prosody": null,
+        "spans": {
           "s1": "Copula della costruzione scissa.",
           "s2": "Partecipante messo in rilievo.",
           "s3": "Proposizione relativa."
-        },
-        "prosody_note": null
+        }
       }
+    },
+    "sentence_translations": {
+      "pl": "To Maria przygotowała kolację."
     }
   },
   {
     "id": "ref-left-002",
-    "schema_version": "1.0",
+    "schema_version": "2.0",
     "sentence": "A Giulia, le ho scritto stamattina.",
     "context": {
       "preceding": "Hai contattato Giulia?",
@@ -348,87 +325,79 @@
       "spans": [
         {
           "id": "s1",
-          "text": "A Giulia",
           "start": 0,
           "end": 8,
           "syntactic_role": "dislocated_indirect_object",
           "information_role": "topic",
           "relation_to": "s2",
-          "note": "Adresat na lewej krawędzi."
+          "text": "A Giulia"
         },
         {
           "id": "s2",
-          "text": "le",
           "start": 10,
           "end": 12,
           "syntactic_role": "resumptive_clitic",
           "information_role": null,
           "relation_to": "s1",
-          "note": "Klityk celownikowy."
+          "text": "le"
         },
         {
           "id": "s3",
-          "text": "ho scritto",
           "start": 13,
           "end": 23,
           "syntactic_role": "predicate",
           "information_role": null,
           "relation_to": null,
-          "note": "Orzeczenie."
+          "text": "ho scritto"
         },
         {
           "id": "s4",
-          "text": "stamattina",
           "start": 24,
           "end": 34,
           "syntactic_role": "time_adjunct",
           "information_role": null,
           "relation_to": null,
-          "note": "Okolicznik czasu."
+          "text": "stamattina"
         }
       ],
       "neutral_variant": {
         "text": "Ho scritto a Giulia stamattina.",
-        "status": "proposed_paraphrase",
-        "note": "Parafraza porównawcza, nie jedyny możliwy odpowiednik."
+        "status": "proposed_paraphrase"
       },
-      "pragmatic_function": [
-        "topic_continuity"
-      ],
-      "pragmatic_note": "Interpretacja zależy od skonstruowanego kontekstu; bez niego nie byłaby rozstrzygająca.",
-      "information_note": "W kontekście pytania Giulia jest znanym referentem.",
-      "prosody_note": null,
-      "evidence_note": "Adresat jest poprzedzony i podjęty klitykiem celownikowym.",
+      "pragmatic_function": ["topic_continuity"],
       "annotator_id": "demo",
       "review_status": "reviewed"
     },
-    "translations": {
+    "descriptions": {
       "pl": {
-        "information_note": "W kontekście pytania Giulia jest znanym referentem.",
-        "pragmatic_note": "Interpretacja zależy od skonstruowanego kontekstu; bez niego nie byłaby rozstrzygająca.",
-        "evidence_note": "Adresat jest poprzedzony i podjęty klitykiem celownikowym.",
-        "neutral_note": "Parafraza porównawcza, nie jedyny możliwy odpowiednik.",
-        "span_notes": {
+        "information": "W kontekście pytania Giulia jest znanym referentem.",
+        "pragmatic": "Interpretacja zależy od skonstruowanego kontekstu; bez niego nie byłaby rozstrzygająca.",
+        "evidence": "Adresat jest poprzedzony i podjęty klitykiem celownikowym.",
+        "neutral": "Parafraza porównawcza, nie jedyny możliwy odpowiednik.",
+        "prosody": null,
+        "spans": {
           "s1": "Adresat na lewej krawędzi.",
           "s2": "Klityk celownikowy.",
           "s3": "Orzeczenie.",
           "s4": "Okolicznik czasu."
-        },
-        "prosody_note": null
+        }
       },
       "it": {
-        "information_note": "Nel contesto della domanda, Giulia è un referente già noto.",
-        "pragmatic_note": "L’interpretazione dipende dal contesto costruito; senza di esso non sarebbe conclusiva.",
-        "evidence_note": "Il destinatario è anticipato e ripreso dal clitico dativo.",
-        "neutral_note": "Parafrasi di confronto, non l’unica formulazione possibile.",
-        "span_notes": {
+        "information": "Nel contesto della domanda, Giulia è un referente già noto.",
+        "pragmatic": "L’interpretazione dipende dal contesto costruito; senza di esso non sarebbe conclusiva.",
+        "evidence": "Il destinatario è anticipato e ripreso dal clitico dativo.",
+        "neutral": "Parafrasi di confronto, non l’unica formulazione possibile.",
+        "prosody": null,
+        "spans": {
           "s1": "Destinatario alla periferia sinistra.",
           "s2": "Clitico dativo.",
           "s3": "Predicato.",
           "s4": "Complemento di tempo."
-        },
-        "prosody_note": null
+        }
       }
+    },
+    "sentence_translations": {
+      "pl": "Do Giulii napisałem dziś rano."
     }
   }
 ]

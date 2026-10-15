@@ -92,19 +92,12 @@ export class ExampleStore {
       ids.add(span.id);
       if (
         span.start >= span.end ||
+        span.end > chars.length ||
         chars.slice(span.start, span.end).join("") !== span.text
       ) {
         errors.push(
           `/annotation/spans/${span.id}: ${language === "it" ? "il testo non corrisponde all’intervallo [start,end) in punti di codice" : "tekst nie odpowiada zakresowi [start,end) w punktach kodowych"}`,
         );
-      }
-    }
-    if (example.annotation.prosody_note !== null) {
-      for (const targetLanguage of ["pl", "it"]) {
-        if (!example.translations[targetLanguage].prosody_note?.trim())
-          errors.push(
-            `/translations/${targetLanguage}/prosody_note: ${language === "it" ? "manca la descrizione prosodica" : "brak opisu prozodii"}`,
-          );
       }
     }
     for (const span of example.annotation.spans as Example[]) {
@@ -117,9 +110,9 @@ export class ExampleStore {
           `/annotation/spans/${span.id}: ${language === "it" ? "relazione con sé stesso" : "relacja do samego siebie"}`,
         );
       for (const targetLanguage of ["pl", "it"]) {
-        if (!example.translations[targetLanguage].span_notes[span.id]?.trim())
+        if (!example.descriptions[targetLanguage].spans[span.id]?.trim())
           errors.push(
-            `/translations/${targetLanguage}/span_notes/${span.id}: ${language === "it" ? "manca la descrizione del segmento" : "brak opisu segmentu"}`,
+            `/descriptions/${targetLanguage}/spans/${span.id}: ${language === "it" ? "manca la descrizione del segmento" : "brak opisu segmentu"}`,
           );
       }
     }

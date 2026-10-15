@@ -19,8 +19,8 @@ npm run start:dev
 
 Otwórz `http://127.0.0.1:3000/` i `http://127.0.0.1:3000/admin.html`. Lista zdań w panelu ładuje się automatycznie i nie wymaga hasła. Walidacja JSON również jest publiczna. Zapis i usuwanie są dostępne dopiero po zalogowaniu poprawnym `ADMIN_PASSWORD`. Bez tej zmiennej pole hasła, logowanie oraz przyciski zapisu i usuwania pozostają nieaktywne. Serwer nasłuchuje wyłącznie na komputerze lokalnym.
 
-Przełącznik **PL / IT** znajduje się w nagłówku obu stron. Wybór jest zapamiętywany w przeglądarce. Opisy przykładów są zapisane w obu językach w polu `translations`; nowy rekord przygotowany w panelu zawiera miejsce na obie wersje.
-Wcześniej dodane własne rekordy bez pola `translations` trzeba uzupełnić o wersje PL i IT przed ponownym zapisem w panelu.
+Przełącznik **PL / IT** znajduje się w nagłówku obu stron. Wybór jest zapamiętywany w przeglądarce. Schemat `2.0` rozdziela niezależne od języka dane w `annotation`, tłumaczenia zdania w `sentence_translations` oraz objaśnienia językoznawcze w `descriptions`. Każda wersja opisów zawiera strukturę informacyjną, pragmatykę, uzasadnienie, opis wariantu neutralnego, prozodii oraz segmentów.
+Skrypt [`scripts/migrate-schema-v2.mjs`](scripts/migrate-schema-v2.mjs) migruje rekordy wersji `1.0`, usuwając powielone opisy z anotacji i zachowując `text` każdego segmentu do kontroli offsetów.
 
 Kod aplikacji znajduje się w `src`: backend NestJS w `src/api`, a interfejs w `src/web`. Logika interfejsu jest napisana w TypeScript, a style w SCSS. Polecenia `npm run build`, `npm start` i `npm run start:dev` kompilują je do `dist/api` i `dist/web`. Plików w `dist/` nie należy edytować ręcznie.
 

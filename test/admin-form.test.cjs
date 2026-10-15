@@ -18,7 +18,9 @@ test("nowy rekord formularza ma pełną strukturę zgodną ze schematem", async 
   assert.equal(validation.valid, true, validation.errors?.join("\n"));
   assert.match(record.id, /^ref-[a-z0-9-]{3,63}$/);
   assert.notEqual(record.id, anotherRecord.id);
-  assert.deepEqual(Object.keys(record.translations).sort(), ["it", "pl"]);
+  assert.equal(record.schema_version, "2.0");
+  assert.deepEqual(Object.keys(record.sentence_translations), ["pl"]);
+  assert.deepEqual(Object.keys(record.descriptions).sort(), ["it", "pl"]);
   assert.deepEqual(record.annotation.spans, []);
   assert.deepEqual(record.annotation.pragmatic_function, []);
 });

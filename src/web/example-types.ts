@@ -8,21 +8,20 @@ export interface SpanAnnotation {
   syntactic_role: string;
   information_role: string | null;
   relation_to: string | null;
-  note: string;
 }
 
-export interface DisplayTranslation {
-  information_note: string;
-  pragmatic_note: string;
-  evidence_note: string;
-  neutral_note: string;
-  prosody_note: string | null;
-  span_notes: Record<string, string>;
+export interface Description {
+  information: string;
+  pragmatic: string;
+  evidence: string;
+  neutral: string;
+  prosody: string | null;
+  spans: Record<string, string>;
 }
 
 export interface ExampleRecord {
   id: string;
-  schema_version: "1.0";
+  schema_version: "2.0";
   sentence: string;
   context: {
     preceding: string | null;
@@ -49,32 +48,28 @@ export interface ExampleRecord {
     neutral_variant: {
       text: string;
       status: "proposed_paraphrase";
-      note: string;
     } | null;
     pragmatic_function: string[];
-    pragmatic_note: string;
-    information_note: string;
-    prosody_note: string | null;
-    evidence_note: string;
     annotator_id: string;
     review_status: string;
   };
-  translations: Record<Language, DisplayTranslation>;
+  sentence_translations: Partial<Record<Language, string>>;
+  descriptions: Record<Language, Description>;
 }
 
 export function createEmptyRecord(): ExampleRecord {
-  const translation = (): DisplayTranslation => ({
-    information_note: "",
-    pragmatic_note: "",
-    evidence_note: "",
-    neutral_note: "",
-    prosody_note: null,
-    span_notes: {},
+  const description = (): Description => ({
+    information: "",
+    pragmatic: "",
+    evidence: "",
+    neutral: "",
+    prosody: null,
+    spans: {},
   });
 
   return {
     id: `ref-${crypto.randomUUID()}`,
-    schema_version: "1.0",
+    schema_version: "2.0",
     sentence: "",
     context: { preceding: null, following: null, context_note: "" },
     source: {
@@ -96,13 +91,10 @@ export function createEmptyRecord(): ExampleRecord {
       spans: [],
       neutral_variant: null,
       pragmatic_function: [],
-      pragmatic_note: "",
-      information_note: "",
-      prosody_note: null,
-      evidence_note: "",
       annotator_id: "",
       review_status: "draft",
     },
-    translations: { pl: translation(), it: translation() },
+    sentence_translations: { pl: "" },
+    descriptions: { pl: description(), it: description() },
   };
 }

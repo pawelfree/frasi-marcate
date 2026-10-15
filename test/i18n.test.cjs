@@ -47,22 +47,19 @@ test("wszystkie stałe etykiety interfejsu mają polską i włoską wersję", as
   delete global.CustomEvent;
 });
 
-test("przykłady mają komplet objaśnień w obu językach", () => {
+test("przykłady mają komplet opisów i tłumaczeń w obu językach", () => {
   const examples = JSON.parse(readFileSync("data/seed.json", "utf8"));
   for (const example of examples)
     for (const language of ["pl", "it"]) {
-      const translation = example.translations[language];
-      for (const key of [
-        "information_note",
-        "pragmatic_note",
-        "evidence_note",
-        "neutral_note",
-      ])
-        assert.ok(translation[key], `${example.id} ${language} ${key}`);
+      const description = example.descriptions[language];
+      for (const key of ["information", "pragmatic", "evidence", "neutral"])
+        assert.ok(description[key], `${example.id} ${language} ${key}`);
       for (const span of example.annotation.spans)
         assert.ok(
-          translation.span_notes[span.id],
+          description.spans[span.id],
           `${example.id} ${language} ${span.id}`,
         );
     }
+  for (const example of examples)
+    assert.ok(example.sentence_translations.pl, `${example.id} pl sentence`);
 });

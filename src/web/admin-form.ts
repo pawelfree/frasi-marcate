@@ -35,6 +35,7 @@ export class InteractiveEditor {
       this.renderSource(),
       this.renderAnnotation(),
       this.renderSpans(),
+      this.renderSentenceTranslations(),
       this.renderTranslations(),
     );
     this.onOptionalVisibilityChange();
@@ -249,46 +250,6 @@ export class InteractiveEditor {
           (value) => (annotation.annotator_id = value),
         ),
       ),
-      this.field(
-        "fieldInformationNote",
-        true,
-        this.textarea(
-          annotation.information_note,
-          (value) => (annotation.information_note = value),
-        ),
-        "baseNoteHint",
-        true,
-      ),
-      this.field(
-        "fieldPragmaticNote",
-        true,
-        this.textarea(
-          annotation.pragmatic_note,
-          (value) => (annotation.pragmatic_note = value),
-        ),
-        "baseNoteHint",
-        true,
-      ),
-      this.field(
-        "fieldEvidenceNote",
-        true,
-        this.textarea(
-          annotation.evidence_note,
-          (value) => (annotation.evidence_note = value),
-        ),
-        "baseNoteHint",
-        true,
-      ),
-      this.field(
-        "fieldProsodyNote",
-        false,
-        this.textarea(
-          annotation.prosody_note ?? "",
-          (value) => (annotation.prosody_note = this.nullable(value)),
-        ),
-        undefined,
-        true,
-      ),
       this.renderNeutralVariant(),
       this.renderStringList(
         "fieldPragmaticFunctions",
@@ -308,7 +269,7 @@ export class InteractiveEditor {
     toggle.checked = annotation.neutral_variant !== null;
     toggle.addEventListener("change", () => {
       annotation.neutral_variant = toggle.checked
-        ? { text: "", status: "proposed_paraphrase", note: "" }
+        ? { text: "", status: "proposed_paraphrase" }
         : null;
       this.changed(true);
     });
@@ -327,16 +288,6 @@ export class InteractiveEditor {
             annotation.neutral_variant.text,
             (value) => (annotation.neutral_variant!.text = value),
           ),
-        ),
-        this.field(
-          "fieldNeutralNote",
-          true,
-          this.textarea(
-            annotation.neutral_variant.note,
-            (value) => (annotation.neutral_variant!.note = value),
-          ),
-          undefined,
-          true,
         ),
       );
     }
@@ -386,10 +337,9 @@ export class InteractiveEditor {
         syntactic_role: "other",
         information_role: null,
         relation_to: null,
-        note: "",
       });
-      record.translations.pl.span_notes[id] = "";
-      record.translations.it.span_notes[id] = "";
+      record.descriptions.pl.spans[id] = "";
+      record.descriptions.it.spans[id] = "";
       this.changed(true);
     });
     return this.section("formSpans", "formSpansHint", [body, add]);
@@ -438,33 +388,6 @@ export class InteractiveEditor {
         ),
       ),
       this.field("fieldRelationTo", false, this.relationSelect(span)),
-      this.field(
-        "fieldSpanNote",
-        true,
-        this.textarea(span.note, (value) => (span.note = value)),
-        "baseNoteHint",
-        true,
-      ),
-      this.field(
-        "fieldSpanNotePl",
-        true,
-        this.textarea(
-          this.record!.translations.pl.span_notes[span.id] ?? "",
-          (value) => (this.record!.translations.pl.span_notes[span.id] = value),
-        ),
-        undefined,
-        true,
-      ),
-      this.field(
-        "fieldSpanNoteIt",
-        true,
-        this.textarea(
-          this.record!.translations.it.span_notes[span.id] ?? "",
-          (value) => (this.record!.translations.it.span_notes[span.id] = value),
-        ),
-        undefined,
-        true,
-      ),
     );
     card.append(
       header,
@@ -479,7 +402,7 @@ export class InteractiveEditor {
   private renderTranslations(): HTMLElement {
     const items: HTMLElement[] = [];
     for (const language of ["pl", "it"] as Language[]) {
-      const translation = this.record!.translations[language];
+      const description = this.record!.descriptions[language];
       const group = this.element("div", "translation-group");
       group.append(
         this.element(
@@ -494,8 +417,8 @@ export class InteractiveEditor {
           "fieldInformationNote",
           true,
           this.textarea(
-            translation.information_note,
-            (value) => (translation.information_note = value),
+            description.information,
+            (value) => (description.information = value),
           ),
           undefined,
           true,
@@ -504,8 +427,8 @@ export class InteractiveEditor {
           "fieldPragmaticNote",
           true,
           this.textarea(
-            translation.pragmatic_note,
-            (value) => (translation.pragmatic_note = value),
+            description.pragmatic,
+            (value) => (description.pragmatic = value),
           ),
           undefined,
           true,
@@ -514,8 +437,8 @@ export class InteractiveEditor {
           "fieldEvidenceNote",
           true,
           this.textarea(
-            translation.evidence_note,
-            (value) => (translation.evidence_note = value),
+            description.evidence,
+            (value) => (description.evidence = value),
           ),
           undefined,
           true,
@@ -524,8 +447,8 @@ export class InteractiveEditor {
           "fieldNeutralNote",
           true,
           this.textarea(
-            translation.neutral_note,
-            (value) => (translation.neutral_note = value),
+            description.neutral,
+            (value) => (description.neutral = value),
           ),
           undefined,
           true,
@@ -534,17 +457,52 @@ export class InteractiveEditor {
           "fieldProsodyNote",
           false,
           this.textarea(
-            translation.prosody_note ?? "",
-            (value) => (translation.prosody_note = this.nullable(value)),
+            description.prosody ?? "",
+            (value) => (description.prosody = this.nullable(value)),
           ),
           undefined,
           true,
         ),
       );
+      this.record!.annotation.spans.forEach((span, index) => {
+        const segment = span.text
+          ? `${this.t("spanLabel")} ${index + 1} — ${span.text}`
+          : `${this.t("spanLabel")} ${index + 1}`;
+        grid.append(
+          this.fieldWithLabel(
+            segment,
+            true,
+            this.textarea(
+              description.spans[span.id] ?? "",
+              (value) => (description.spans[span.id] = value),
+            ),
+            true,
+          ),
+        );
+      });
       group.append(grid);
       items.push(group);
     }
     return this.section("formTranslations", "formTranslationsHint", items);
+  }
+
+  private renderSentenceTranslations(): HTMLElement {
+    return this.section(
+      "formSentenceTranslations",
+      "formSentenceTranslationsHint",
+      [
+        this.field(
+          "fieldSentenceTranslationPl",
+          true,
+          this.textarea(
+            this.record!.sentence_translations.pl ?? "",
+            (value) => (this.record!.sentence_translations.pl = value),
+          ),
+          undefined,
+          true,
+        ),
+      ],
+    );
   }
 
   private section(
@@ -568,9 +526,25 @@ export class InteractiveEditor {
     hintKey?: string,
     wide = false,
   ): HTMLElement {
+    return this.fieldWithLabel(
+      this.t(labelKey),
+      required,
+      control,
+      wide,
+      hintKey ? this.t(hintKey) : undefined,
+    );
+  }
+
+  private fieldWithLabel(
+    labelText: string,
+    required: boolean,
+    control: HTMLElement,
+    wide = false,
+    hint?: string,
+  ): HTMLElement {
     const label = this.element("label", `form-field${wide ? " wide" : ""}`);
     const heading = this.element("span", "field-heading");
-    heading.append(document.createTextNode(this.t(labelKey)));
+    heading.append(document.createTextNode(labelText));
 
     const indicators = this.element("span", "field-indicators");
     indicators.append(this.badge(required));
@@ -592,8 +566,7 @@ export class InteractiveEditor {
     heading.append(indicators);
     label.append(heading, control);
     if (!required) this.setOptionalFieldOpen(label, !control.hidden);
-    if (hintKey)
-      label.append(this.element("small", "field-hint", this.t(hintKey)));
+    if (hint) label.append(this.element("small", "field-hint", hint));
     return label;
   }
 
@@ -684,7 +657,7 @@ export class InteractiveEditor {
   ): HTMLTextAreaElement {
     const textarea = document.createElement("textarea");
     textarea.value = value;
-    textarea.rows = 3;
+    textarea.rows = 1;
     textarea.addEventListener("input", () => {
       update(textarea.value);
       this.changed();
@@ -718,7 +691,7 @@ export class InteractiveEditor {
     select.append(new Option(this.t("noRelation"), ""));
     for (const [index, candidate] of this.record!.annotation.spans.entries()) {
       if (candidate === span) continue;
-      const text = candidate.text.trim();
+      const text = this.spanText(candidate).trim();
       const label = `${this.t("spanLabel")} ${index + 1}${text ? ` — ${text}` : ""}`;
       select.append(new Option(label, candidate.id));
     }
@@ -771,10 +744,14 @@ export class InteractiveEditor {
   private removeSpan(index: number): void {
     const [removed] = this.record!.annotation.spans.splice(index, 1);
     for (const language of ["pl", "it"] as Language[])
-      delete this.record!.translations[language].span_notes[removed.id];
+      delete this.record!.descriptions[language].spans[removed.id];
     for (const span of this.record!.annotation.spans)
       if (span.relation_to === removed.id) span.relation_to = null;
     this.changed(true);
+  }
+
+  private spanText(span: SpanAnnotation): string {
+    return span.text;
   }
 
   private findOffsets(span: SpanAnnotation): void {

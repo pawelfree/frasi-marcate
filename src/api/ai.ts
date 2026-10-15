@@ -12,7 +12,7 @@ export class AiService {
         "Analiza AI wymaga OPENAI_API_KEY i OPENAI_MODEL w .env.",
       );
     }
-    const instructions = `Analizuj współczesne zdanie włoskie. Klasy: left_dislocation, right_dislocation, cleft, none, ambiguous. Oddziel widoczną składnię od hipotezy pragmatycznej. Jeśli brak kontekstu, użyj niepewności. Zwróć wyłącznie JSON z polami: construction, certainty (high/medium/low), spans (id,text,start,end,syntactic_role,information_role,relation_to,note), neutral_variant (string|null), information_note, pragmatic_note, evidence_note, needs_more_context (boolean). Offsety to punkty kodowe Unicode [start,end). Nie wymyślaj źródła ani prozodii. Wszystkie opisy w polach note, information_note, pragmatic_note i evidence_note napisz ${language === "it" ? "po włosku" : "po polsku"}.`;
+    const instructions = `Analizuj współczesne zdanie włoskie. Klasy: left_dislocation, right_dislocation, cleft, none, ambiguous. Oddziel widoczną składnię od hipotezy pragmatycznej. Jeśli brak kontekstu, użyj niepewności. Zwróć wyłącznie JSON z polami: construction, certainty (high/medium/low), spans (id,text,start,end,syntactic_role,information_role,relation_to), neutral_variant (string|null), pragmatic_function (tablica napisów), descriptions (information, pragmatic, evidence, neutral, spans — obiekt opisów indeksowany identyfikatorami segmentów), needs_more_context (boolean). Offsety to punkty kodowe Unicode [start,end). Nie wymyślaj źródła ani prozodii. Wszystkie wartości w descriptions napisz ${language === "it" ? "po włosku" : "po polsku"}.`;
     let response: Response;
     try {
       response = await fetch("https://api.openai.com/v1/chat/completions", {
@@ -62,10 +62,15 @@ export class AiService {
       !classes.includes(result.construction) ||
       !certainty.includes(result.certainty) ||
       !Array.isArray(result.spans) ||
+      !Array.isArray(result.pragmatic_function) ||
       typeof result.needs_more_context !== "boolean" ||
-      typeof result.evidence_note !== "string" ||
-      typeof result.information_note !== "string" ||
-      typeof result.pragmatic_note !== "string" ||
+      !result.descriptions ||
+      typeof result.descriptions.information !== "string" ||
+      typeof result.descriptions.pragmatic !== "string" ||
+      typeof result.descriptions.evidence !== "string" ||
+      typeof result.descriptions.neutral !== "string" ||
+      !result.descriptions.spans ||
+      typeof result.descriptions.spans !== "object" ||
       !(
         typeof result.neutral_variant === "string" ||
         result.neutral_variant === null
@@ -83,12 +88,13 @@ export class AiService {
           span.information_role === null
         ) ||
         !(typeof span.relation_to === "string" || span.relation_to === null) ||
-        typeof span.note !== "string" ||
         !Number.isInteger(span.start) ||
         !Number.isInteger(span.end) ||
         span.start < 0 ||
         span.start >= span.end ||
-        chars.slice(span.start, span.end).join("") !== span.text
+        span.end > chars.length ||
+        chars.slice(span.start, span.end).join("") !== span.text ||
+        typeof result.descriptions.spans[span.id] !== "string"
       ) {
         throw new BadGatewayException(
           "Odpowiedź AI zawiera niezgodne offsety.",

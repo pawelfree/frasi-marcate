@@ -100,14 +100,19 @@ export const I18n = (() => {
       formSourceHint:
         "Metadane pozwalające zweryfikować pochodzenie przykładu.",
       formAnnotation: "Anotacja",
-      formAnnotationHint: "Klasyfikacja, pewność i uzasadnienie analizy.",
+      formAnnotationHint: "Dane językoznawcze niezależne od języka interfejsu.",
       formSpans: "Segmenty zdania",
       formSpansHint:
         "Dodawaj segmenty wraz z offsetami [start, end), rolami, relacjami i opisami PL/IT.",
-      formTranslations: "Treści polskie i włoskie",
+      formSentenceTranslations: "Tłumaczenie zdania",
+      formSentenceTranslationsHint:
+        "Tłumaczenie włoskiego zdania jest przechowywane oddzielnie od objaśnień językoznawczych.",
+      fieldSentenceTranslationPl: "Polskie tłumaczenie zdania",
+      formTranslations: "Objaśnienia językoznawcze",
       formTranslationsHint:
-        "Te teksty są wyświetlane użytkownikowi po zmianie języka aplikacji.",
+        "Wszystkie objaśnienia są przechowywane wyłącznie tutaj, osobno dla każdego języka.",
       fieldSentence: "Zdanie",
+      fieldSentenceTranslation: "Tłumaczenie zdania",
       sentenceHint:
         "Zmiana zdania może wymagać ponownego wyznaczenia offsetów segmentów.",
       fieldPreceding: "Kontekst poprzedzający",
@@ -193,6 +198,7 @@ export const I18n = (() => {
       certainty: "Pewność",
       noProsody: "Brak danych prozodycznych.",
       selectedElement: "Wybrany element",
+      sentenceTranslation: "Tłumaczenie zdania",
       relatedTo: "Powiązany z",
       analyzing: "Trwa analiza…",
       analysisError: "Błąd analizy",
@@ -322,14 +328,19 @@ export const I18n = (() => {
         "Metadati necessari per verificare la provenienza dell’esempio.",
       formAnnotation: "Annotazione",
       formAnnotationHint:
-        "Classificazione, grado di certezza e motivazione dell’analisi.",
+        "Dati linguistici indipendenti dalla lingua dell’interfaccia.",
       formSpans: "Segmenti della frase",
       formSpansHint:
         "Aggiungi segmenti con intervalli [start, end), ruoli, relazioni e descrizioni PL/IT.",
-      formTranslations: "Contenuti in polacco e italiano",
+      formSentenceTranslations: "Traduzione della frase",
+      formSentenceTranslationsHint:
+        "La traduzione della frase italiana è conservata separatamente dalle spiegazioni linguistiche.",
+      fieldSentenceTranslationPl: "Traduzione polacca della frase",
+      formTranslations: "Spiegazioni linguistiche",
       formTranslationsHint:
-        "Questi testi sono mostrati all’utente quando cambia la lingua dell’applicazione.",
+        "Tutte le spiegazioni sono conservate solo qui, separatamente per ogni lingua.",
       fieldSentence: "Frase",
+      fieldSentenceTranslation: "Traduzione della frase",
       sentenceHint:
         "La modifica della frase può richiedere il ricalcolo degli intervalli dei segmenti.",
       fieldPreceding: "Contesto precedente",
@@ -415,6 +426,7 @@ export const I18n = (() => {
       certainty: "Certezza",
       noProsody: "Dati prosodici non disponibili.",
       selectedElement: "Elemento selezionato",
+      sentenceTranslation: "Traduzione della frase",
       relatedTo: "In relazione con",
       analyzing: "Analisi in corso…",
       analysisError: "Errore di analisi",
