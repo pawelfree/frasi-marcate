@@ -4,10 +4,10 @@ const { readFileSync } = require("node:fs");
 
 test("wszystkie stałe etykiety interfejsu mają polską i włoską wersję", async () => {
   const files = [
-    "public/index.html",
-    "public/admin.html",
-    "public/assets/app.js",
-    "public/assets/admin.js",
+    "src/web/public/index.html",
+    "src/web/public/admin.html",
+    "dist/web/assets/app.js",
+    "dist/web/assets/admin.js",
   ];
   const keys = new Set();
   for (const file of files) {
@@ -31,7 +31,7 @@ test("wszystkie stałe etykiety interfejsu mają polską i włoską wersję", as
     title: "",
   };
   global.CustomEvent = class {};
-  const source = readFileSync("public/assets/i18n.js", "utf8");
+  const source = readFileSync("dist/web/assets/i18n.js", "utf8");
   for (const language of ["pl", "it"]) {
     selected.set("frasi-language", language);
     const module = await import(

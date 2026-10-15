@@ -3,14 +3,15 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "build:frontend": "tsc -p tsconfig.frontend.json && sass --no-source-map frontend/style.scss public/assets/style.css",
-    "prestart": "npm run build:frontend",
+    "build:web": "node scripts/prepare-web.mjs && tsc -p tsconfig.web.json && sass --no-source-map src/web/style.scss dist/web/assets/style.css",
+    "build:api": "nest build",
+    "prestart": "npm run build:web",
     "start": "nest start",
-    "prestart:dev": "npm run build:frontend",
+    "prestart:dev": "npm run build:web",
     "start:dev": "nest start --watch",
-    "build": "npm run build:frontend && nest build",
-    "pretest": "npm run build:frontend",
-    "format": "prettier --write frontend public/*.html src test *.json *.md",
+    "build": "npm run build:web && npm run build:api",
+    "pretest": "npm run build",
+    "format": "prettier --write src scripts test *.json *.md",
     "test": "node --test test/*.test.cjs"
   },
   "dependencies": {

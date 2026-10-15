@@ -9,7 +9,7 @@
     "skipLibCheck": true,
     "types": [],
     "removeComments": false,
-    "outDir": "public/assets"
+    "outDir": "dist/web/assets"
   },
-  "include": ["frontend/**/*.ts"]
+  "include": ["src/web/**/*.ts"]
 }

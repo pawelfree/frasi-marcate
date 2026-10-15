@@ -22,7 +22,7 @@ Otwórz `http://127.0.0.1:3000/` i `http://127.0.0.1:3000/admin.html`. Lista zda
 Przełącznik **PL / IT** znajduje się w nagłówku obu stron. Wybór jest zapamiętywany w przeglądarce. Opisy przykładów są zapisane w obu językach w polu `translations`; nowy rekord przygotowany w panelu zawiera miejsce na obie wersje.
 Wcześniej dodane własne rekordy bez pola `translations` trzeba uzupełnić o wersje PL i IT przed ponownym zapisem w panelu.
 
-Kod źródłowy interfejsu znajduje się w `frontend/`: logika jest napisana w TypeScript, a style w SCSS. Polecenia `npm run build`, `npm start` i `npm run start:dev` kompilują je do generowanych plików w `public/assets/`. Plików w `public/assets/` nie należy edytować ręcznie.
+Kod aplikacji znajduje się w `src`: backend NestJS w `src/api`, a interfejs w `src/web`. Logika interfejsu jest napisana w TypeScript, a style w SCSS. Polecenia `npm run build`, `npm start` i `npm run start:dev` kompilują je do `dist/api` i `dist/web`. Plików w `dist/` nie należy edytować ręcznie.
 
 ## Moduły
 
