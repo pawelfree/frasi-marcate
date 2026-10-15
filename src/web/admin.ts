@@ -1,23 +1,46 @@
+import { InteractiveEditor } from "./admin-form.js";
+import { createEmptyRecord, type ExampleRecord } from "./example-types.js";
 import { I18n } from "./i18n.js";
 
 const $ = (selector: string): any => document.querySelector(selector);
 const t = (key: string, variables?: Record<string, unknown>) =>
   I18n.t(key, variables);
 
-let records: any[] = [];
+let records: ExampleRecord[] = [];
 let selected = "";
+let currentRecord: ExampleRecord | null = null;
+let activeEditor: "json" | "form" = "json";
 let schemaText = "";
 let passwordConfigured = false;
 let authenticated = false;
-function status(message, bad = false) {
+
+const interactiveEditor = new InteractiveEditor(
+  $("#interactive-form"),
+  t,
+  (record) => {
+    currentRecord = record;
+    $("#json").value = JSON.stringify(record, null, 2);
+    setSyncStatus("formSynced", false);
+  },
+);
+
+function status(message: string, bad = false): void {
   const node = $("#status");
   node.textContent = message;
   node.style.color = bad ? "#a43a38" : "#1d6d5b";
 }
-function auth() {
+
+function setSyncStatus(key: string, bad: boolean): void {
+  const node = $("#json-sync-status");
+  node.textContent = t(key);
+  node.classList.toggle("error", bad);
+}
+
+function auth(): string {
   return "Basic " + btoa("admin:" + $("#password").value);
 }
-async function api(path: string, method = "GET", body?: unknown) {
+
+async function api(path: string, method = "GET", body?: unknown): Promise<any> {
   const headers: Record<string, string> = {
     "accept-language": I18n.language,
     ...(body ? { "content-type": "application/json" } : {}),
@@ -28,7 +51,7 @@ async function api(path: string, method = "GET", body?: unknown) {
     headers,
     body: body ? JSON.stringify(body) : undefined,
   });
-  let data;
+  let data: any;
   try {
     data = await response.json();
   } catch {
@@ -42,7 +65,23 @@ async function api(path: string, method = "GET", body?: unknown) {
   }
   return data;
 }
-function showList() {
+
+function setRecord(record: ExampleRecord): void {
+  currentRecord = record;
+  $("#json").value = JSON.stringify(record, null, 2);
+  if (activeEditor === "form") interactiveEditor.setRecord(record);
+  setSyncStatus("editorsSynced", false);
+}
+
+function parseJsonEditor(): ExampleRecord {
+  try {
+    return JSON.parse($("#json").value) as ExampleRecord;
+  } catch (error) {
+    throw Error(`${t("jsonSyntaxError")}: ${(error as Error).message}`);
+  }
+}
+
+function showList(): void {
   const root = $("#records");
   root.replaceChildren();
   for (const record of records) {
@@ -51,28 +90,34 @@ function showList() {
     button.className = record.id === selected ? "active" : "";
     button.onclick = () => {
       selected = record.id;
-      $("#json").value = JSON.stringify(record, null, 2);
+      setRecord(record);
       showList();
       status(`${t("loadedRecord")} ${record.id}`);
     };
     root.append(button);
   }
 }
-async function load() {
+
+async function load(): Promise<void> {
   try {
     records = await api("examples");
     if (!records.some((record) => record.id === selected))
       selected = records[0]?.id || "";
     const record = records.find((item) => item.id === selected);
-    if (record) $("#json").value = JSON.stringify(record, null, 2);
-    else $("#json").value = "";
+    if (record) setRecord(record);
+    else {
+      currentRecord = null;
+      $("#json").value = "";
+      interactiveEditor.setRecord(null);
+    }
     showList();
     status(t("loadedRecords", { count: records.length }));
   } catch (error) {
-    status(error.message, true);
+    status((error as Error).message, true);
   }
 }
-function setAuthenticated(value) {
+
+function setAuthenticated(value: boolean): void {
   authenticated = value;
   $("#save").disabled = !value;
   $("#delete").disabled = !value;
@@ -83,7 +128,8 @@ function setAuthenticated(value) {
       : t("loginUnavailable");
   $("#auth-status").classList.toggle("authenticated", value);
 }
-async function initialize() {
+
+async function initialize(): Promise<void> {
   try {
     const config = await api("config");
     passwordConfigured = config.passwordConfigured;
@@ -96,16 +142,54 @@ async function initialize() {
     $("#login").disabled = !passwordConfigured || !field.value;
     setAuthenticated(false);
   } catch (error) {
-    status(error.message, true);
+    status((error as Error).message, true);
   }
   await load();
 }
+
+function switchEditor(next: "json" | "form"): void {
+  if (next === "form") {
+    try {
+      currentRecord = parseJsonEditor();
+      interactiveEditor.setRecord(currentRecord);
+      setSyncStatus("editorsSynced", false);
+    } catch (error) {
+      status((error as Error).message, true);
+      setSyncStatus("jsonInvalidForForm", true);
+      return;
+    }
+  }
+  activeEditor = next;
+  $("#json-panel").hidden = next !== "json";
+  $("#form-panel").hidden = next !== "form";
+  document.querySelectorAll<HTMLElement>("[data-editor-tab]").forEach((tab) => {
+    const active = tab.dataset.editorTab === next;
+    tab.classList.toggle("active", active);
+    tab.setAttribute("aria-selected", String(active));
+  });
+}
+
+document.querySelectorAll<HTMLElement>("[data-editor-tab]").forEach((tab) => {
+  tab.addEventListener("click", () =>
+    switchEditor(tab.dataset.editorTab === "form" ? "form" : "json"),
+  );
+});
+
+$("#json").addEventListener("input", () => {
+  try {
+    currentRecord = parseJsonEditor();
+    setSyncStatus("jsonReadyToSync", false);
+  } catch {
+    setSyncStatus("jsonHasErrors", true);
+  }
+});
+
 $("#load").onclick = load;
 $("#password").addEventListener("input", () => {
   setAuthenticated(false);
   $("#login").disabled = !passwordConfigured || !$("#password").value;
 });
-$("#password").addEventListener("keydown", (event) => {
+$("#password").addEventListener("keydown", (event: KeyboardEvent) => {
   if (event.key === "Enter" && !$("#login").disabled) $("#login").click();
 });
 $("#login").onclick = async () => {
@@ -115,94 +199,34 @@ $("#login").onclick = async () => {
     status(t("loginSuccess"));
   } catch (error) {
     setAuthenticated(false);
-    status(error.message, true);
+    status((error as Error).message, true);
   }
 };
 $("#new").onclick = () => {
   selected = "";
-  $("#json").value = JSON.stringify(
-    {
-      id: "ref-new-001",
-      schema_version: "1.0",
-      sentence: "",
-      context: { preceding: null, following: null, context_note: "" },
-      source: {
-        source_type: "constructed",
-        publisher: null,
-        title: null,
-        url: null,
-        accessed_at: null,
-        published_at: null,
-        speaker: null,
-        timestamp: null,
-        license_note: "",
-        genre: "constructed_example",
-        medium: "text",
-      },
-      annotation: {
-        construction: "ambiguous",
-        certainty: "low",
-        spans: [],
-        neutral_variant: null,
-        pragmatic_function: [],
-        pragmatic_note: "",
-        information_note: "",
-        prosody_note: null,
-        evidence_note: "",
-        annotator_id: "",
-        review_status: "draft",
-      },
-      translations: {
-        pl: {
-          information_note: "",
-          pragmatic_note: "",
-          evidence_note: "",
-          neutral_note: "",
-          prosody_note: null,
-          span_notes: {},
-        },
-        it: {
-          information_note: "",
-          pragmatic_note: "",
-          evidence_note: "",
-          neutral_note: "",
-          prosody_note: null,
-          span_notes: {},
-        },
-      },
-    },
-    null,
-    2,
-  );
+  setRecord(createEmptyRecord());
   showList();
   status(t("newRecordHint"));
 };
-function parse() {
-  try {
-    return JSON.parse($("#json").value);
-  } catch (error) {
-    throw Error(`${t("jsonSyntaxError")}: ${error.message}`);
-  }
-}
 $("#validate").onclick = async () => {
   try {
-    const result = await api("validate", "POST", parse());
+    const result = await api("validate", "POST", parseJsonEditor());
     status(
       result.valid ? t("recordValid") : result.errors.join("\n"),
       !result.valid,
     );
   } catch (error) {
-    status(error.message, true);
+    status((error as Error).message, true);
   }
 };
 $("#save").onclick = async () => {
   try {
-    const result = await api("examples", "POST", parse());
+    const result = await api("examples", "POST", parseJsonEditor());
     selected = result.id;
     await load();
     status(`${t("savedRecord")} ${selected}`);
   } catch (error) {
-    status(error.message, true);
+    status((error as Error).message, true);
   }
 };
 $("#delete").onclick = async () => {
@@ -211,11 +235,10 @@ $("#delete").onclick = async () => {
     if (!confirm(t("deleteConfirm", { id: selected }))) return;
     await api("examples/" + encodeURIComponent(selected), "DELETE");
     selected = "";
-    $("#json").value = "";
     await load();
     status(t("recordDeleted"));
   } catch (error) {
-    status(error.message, true);
+    status((error as Error).message, true);
   }
 };
 $("#show-schema").onclick = async () => {
@@ -231,7 +254,7 @@ $("#show-schema").onclick = async () => {
     $("#copy-schema").disabled = false;
   } catch (error) {
     $("#schema-content").textContent =
-      `${t("schemaLoadError")}: ${error.message}`;
+      `${t("schemaLoadError")}: ${(error as Error).message}`;
   }
 };
 $("#copy-schema").onclick = async () => {
@@ -242,8 +265,9 @@ $("#copy-schema").onclick = async () => {
     $("#schema-status").textContent = t("copyError");
   }
 };
-$("#schema-dialog").addEventListener("click", (event) => {
-  if (event.target === event.currentTarget) event.currentTarget.close();
+$("#schema-dialog").addEventListener("click", (event: MouseEvent) => {
+  if (event.target === event.currentTarget)
+    (event.currentTarget as HTMLDialogElement).close();
 });
 document.addEventListener("languagechange", () => {
   status("");
@@ -255,5 +279,8 @@ document.addEventListener("languagechange", () => {
     : t("passwordNotConfigured");
   field.title = passwordConfigured ? "" : t("passwordDisabledHint");
   setAuthenticated(authenticated);
+  if (activeEditor === "form" && currentRecord)
+    interactiveEditor.setRecord(currentRecord);
 });
+
 initialize();

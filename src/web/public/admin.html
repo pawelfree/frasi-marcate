@@ -65,12 +65,64 @@
           <div id="records" class="admin-list"></div>
         </aside>
         <section class="admin-card">
-          <label for="json" data-i18n="recordJson">Rekord JSON</label>
-          <textarea
-            id="json"
-            class="admin-textarea"
-            spellcheck="false"
-          ></textarea>
+          <div class="editor-tabs" role="tablist" aria-label="Tryb edycji">
+            <button
+              id="json-tab"
+              class="editor-tab active"
+              type="button"
+              role="tab"
+              aria-selected="true"
+              aria-controls="json-panel"
+              data-editor-tab="json"
+              data-i18n="jsonTab"
+            >
+              Edytor JSON
+            </button>
+            <button
+              id="form-tab"
+              class="editor-tab"
+              type="button"
+              role="tab"
+              aria-selected="false"
+              aria-controls="form-panel"
+              data-editor-tab="form"
+              data-i18n="formTab"
+            >
+              Formularz interaktywny
+            </button>
+          </div>
+          <div
+            id="json-panel"
+            class="editor-panel"
+            role="tabpanel"
+            aria-labelledby="json-tab"
+          >
+            <label for="json" data-i18n="recordJson">Rekord JSON</label>
+            <textarea
+              id="json"
+              class="admin-textarea"
+              spellcheck="false"
+            ></textarea>
+            <p id="json-sync-status" class="sync-status" role="status"></p>
+          </div>
+          <div
+            id="form-panel"
+            class="editor-panel"
+            role="tabpanel"
+            aria-labelledby="form-tab"
+            hidden
+          >
+            <div class="form-legend">
+              <span
+                ><b class="required-mark">*</b>
+                <span data-i18n="requiredField">pole wymagane</span></span
+              >
+              <span class="optional-badge" data-i18n="optionalField"
+                >wartość opcjonalna</span
+              >
+            </div>
+            <div id="interactive-form" class="interactive-form"></div>
+          </div>
           <div class="admin-toolbar">
             <button id="validate" class="button secondary" data-i18n="validate">
               Waliduj JSON

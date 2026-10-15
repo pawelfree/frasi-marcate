@@ -8,6 +8,7 @@ test("wszystkie stałe etykiety interfejsu mają polską i włoską wersję", as
     "src/web/public/admin.html",
     "dist/web/assets/app.js",
     "dist/web/assets/admin.js",
+    "dist/web/assets/admin-form.js",
   ];
   const keys = new Set();
   for (const file of files) {
@@ -16,7 +17,8 @@ test("wszystkie stałe etykiety interfejsu mają polską i włoską wersję", as
       /data-i18n(?:-placeholder|-aria)?="([^"]+)"/g,
     ))
       keys.add(match[1]);
-    for (const match of source.matchAll(/\bt\('([^']+)'/g)) keys.add(match[1]);
+    for (const match of source.matchAll(/\bt\(["']([^"']+)["']/g))
+      keys.add(match[1]);
   }
   const selected = new Map();
   global.localStorage = {

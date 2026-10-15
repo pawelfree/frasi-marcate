@@ -29,7 +29,7 @@ Kod aplikacji znajduje się w `src`: backend NestJS w `src/api`, a interfejs w `
 - **Esplora le strutture:** filtr konstrukcji, segmenty i ich relacje, kontekst, źródło, wariant porównawczy, struktura informacyjna i jawny brak danych prozodycznych.
 - **Analizza una frase:** formularz zdania i kontekstu. Po ustawieniu `OPENAI_API_KEY` i `OPENAI_MODEL` backend wywołuje Chat Completions w trybie JSON, sprawdza typy i offsety odpowiedzi. Bez konfiguracji API zwraca czytelną informację o braku usługi. Wyniki nie trafiają do zbioru referencyjnego.
 - **Mettiti alla prova:** rozpoznanie klasy i kluczowego segmentu z informacją zwrotną opartą na zatwierdzonym rekordzie.
-- **Panel administratora:** lista rekordów, edytor JSON, schemat wyświetlany w oknie aplikacji, walidacja, zapis, usuwanie i status `draft`/`reviewed`. API administracyjne wymaga hasła HTTP Basic z `.env`.
+- **Panel administratora:** lista rekordów oraz dwa zsynchronizowane sposoby edycji: surowy JSON i formularz interaktywny. Formularz oznacza pola wymagane i opcjonalne, pozwala dodawać i usuwać segmenty oraz funkcje pragmatyczne, a także uzupełniać treści polskie i włoskie. Panel udostępnia schemat w oknie aplikacji, walidację, zapis, usuwanie i status `draft`/`reviewed`. API administracyjne wymaga hasła HTTP Basic z `.env`.
 
 ## Dane
 
