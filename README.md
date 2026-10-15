@@ -24,7 +24,7 @@ Otwórz `http://127.0.0.1:3000/` i `http://127.0.0.1:3000/admin.html`. Hasło je
 - **Esplora le strutture:** filtr konstrukcji, segmenty i ich relacje, kontekst, źródło, wariant porównawczy, struktura informacyjna i jawny brak danych prozodycznych.
 - **Analizza una frase:** formularz zdania i kontekstu. Po ustawieniu `OPENAI_API_KEY` i `OPENAI_MODEL` backend wywołuje Chat Completions w trybie JSON, sprawdza typy i offsety odpowiedzi. Bez konfiguracji API zwraca czytelną informację o braku usługi. Wyniki nie trafiają do zbioru referencyjnego.
 - **Mettiti alla prova:** rozpoznanie klasy i kluczowego segmentu z informacją zwrotną opartą na zatwierdzonym rekordzie.
-- **Panel administratora:** lista rekordów, edytor JSON, walidacja, zapis, usuwanie i status `draft`/`reviewed`. API administracyjne wymaga hasła HTTP Basic z `.env`.
+- **Panel administratora:** lista rekordów, edytor JSON, schemat wyświetlany w oknie aplikacji, walidacja, zapis, usuwanie i status `draft`/`reviewed`. API administracyjne wymaga hasła HTTP Basic z `.env`.
 
 ## Dane
 

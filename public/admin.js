@@ -9,3 +9,21 @@ function parse(){try{return JSON.parse($('#json').value)}catch(e){throw Error('N
 $('#validate').onclick=async()=>{try{const result=await api('validate','POST',parse());status(result.valid?'Rekord poprawny.':result.errors.join('\n'),!result.valid)}catch(e){status(e.message,true)}};
 $('#save').onclick=async()=>{try{const result=await api('examples','POST',parse());selected=result.id;await load();status('Zapisano rekord '+selected)}catch(e){status(e.message,true)}};
 $('#delete').onclick=async()=>{try{if(!selected)throw Error('Najpierw wybierz zapisany rekord.');if(!confirm('Usunąć rekord '+selected+'?'))return;await api('examples/'+encodeURIComponent(selected),'DELETE');selected='';$('#json').value='';await load();status('Rekord usunięty.')}catch(e){status(e.message,true)}};
+let schemaText='';
+$('#show-schema').onclick=async()=>{
+  const dialog=$('#schema-dialog');
+  dialog.showModal();
+  if(schemaText)return;
+  try{
+    const response=await fetch('/example.schema.json');
+    if(!response.ok)throw Error(`HTTP ${response.status}`);
+    schemaText=JSON.stringify(await response.json(),null,2);
+    $('#schema-content').textContent=schemaText;
+    $('#copy-schema').disabled=false;
+  }catch(error){$('#schema-content').textContent='Nie udało się wczytać schematu: '+error.message}
+};
+$('#copy-schema').onclick=async()=>{
+  try{await navigator.clipboard.writeText(schemaText);$('#schema-status').textContent='Skopiowano.'}
+  catch{$('#schema-status').textContent='Nie udało się skopiować schematu.'}
+};
+$('#schema-dialog').addEventListener('click',event=>{if(event.target===event.currentTarget)event.currentTarget.close()});
