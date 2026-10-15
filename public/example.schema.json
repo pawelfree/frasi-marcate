@@ -1,0 +1,76 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Frasi reference example v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["id", "schema_version", "sentence", "context", "source", "annotation"],
+  "properties": {
+    "id": { "type": "string", "pattern": "^[a-z0-9][a-z0-9-]{2,63}$" },
+    "schema_version": { "const": "1.0" },
+    "sentence": { "type": "string", "minLength": 3, "maxLength": 1000 },
+    "context": {
+      "type": "object", "additionalProperties": false,
+      "required": ["preceding", "following", "context_note"],
+      "properties": {
+        "preceding": { "type": ["string", "null"] },
+        "following": { "type": ["string", "null"] },
+        "context_note": { "type": "string" }
+      }
+    },
+    "source": {
+      "type": "object", "additionalProperties": false,
+      "required": ["source_type", "publisher", "title", "url", "accessed_at", "published_at", "speaker", "timestamp", "license_note", "genre", "medium"],
+      "properties": {
+        "source_type": { "enum": ["constructed", "corpus", "press", "audiovisual", "literature", "other"] },
+        "publisher": { "type": ["string", "null"] },
+        "title": { "type": ["string", "null"] },
+        "url": { "type": ["string", "null"], "pattern": "^https?://" },
+        "accessed_at": { "type": ["string", "null"], "pattern": "^\\d{4}-\\d{2}-\\d{2}$" },
+        "published_at": { "type": ["string", "null"], "pattern": "^\\d{4}-\\d{2}-\\d{2}$" },
+        "speaker": { "type": ["string", "null"] },
+        "timestamp": { "type": ["string", "null"] },
+        "license_note": { "type": "string" },
+        "genre": { "type": "string" },
+        "medium": { "type": "string" }
+      }
+    },
+    "annotation": {
+      "type": "object", "additionalProperties": false,
+      "required": ["construction", "certainty", "spans", "neutral_variant", "pragmatic_function", "pragmatic_note", "evidence_note", "annotator_id", "review_status", "information_note", "prosody_note"],
+      "properties": {
+        "construction": { "enum": ["left_dislocation", "right_dislocation", "cleft", "none", "ambiguous"] },
+        "certainty": { "enum": ["high", "medium", "low"] },
+        "spans": { "type": "array", "maxItems": 30, "items": { "$ref": "#/definitions/span" } },
+        "neutral_variant": { "oneOf": [
+          { "type": "null" },
+          { "type": "object", "additionalProperties": false, "required": ["text", "status", "note"], "properties": {
+            "text": { "type": "string" }, "status": { "const": "proposed_paraphrase" }, "note": { "type": "string" }
+          } }
+        ] },
+        "pragmatic_function": { "type": "array", "items": { "type": "string" } },
+        "pragmatic_note": { "type": "string" },
+        "information_note": { "type": "string" },
+        "prosody_note": { "type": ["string", "null"] },
+        "evidence_note": { "type": "string" },
+        "annotator_id": { "type": "string" },
+        "review_status": { "enum": ["draft", "reviewed"] }
+      }
+    }
+  },
+  "definitions": {
+    "span": {
+      "type": "object", "additionalProperties": false,
+      "required": ["id", "text", "start", "end", "syntactic_role", "information_role", "relation_to", "note"],
+      "properties": {
+        "id": { "type": "string", "minLength": 1 },
+        "text": { "type": "string", "minLength": 1 },
+        "start": { "type": "integer", "minimum": 0 },
+        "end": { "type": "integer", "minimum": 1 },
+        "syntactic_role": { "type": "string", "minLength": 1 },
+        "information_role": { "type": ["string", "null"] },
+        "relation_to": { "type": ["string", "null"] },
+        "note": { "type": "string" }
+      }
+    }
+  }
+}

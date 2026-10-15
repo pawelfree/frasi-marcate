@@ -1,0 +1,5 @@
+node_modules/
+dist/
+data/examples.json
+.env
+.DS_Store

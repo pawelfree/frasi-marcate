@@ -1,0 +1,324 @@
+[
+  {
+    "id": "ref-left-001",
+    "schema_version": "1.0",
+    "sentence": "Questo libro, l'ho comprato ieri.",
+    "context": {
+      "preceding": "Che cosa hai fatto con il libro che ti ho consigliato?",
+      "following": null,
+      "context_note": "Kontekst skonstruowany do przykładu dydaktycznego."
+    },
+    "source": {
+      "source_type": "constructed",
+      "publisher": null,
+      "title": null,
+      "url": null,
+      "accessed_at": null,
+      "published_at": null,
+      "speaker": null,
+      "timestamp": null,
+      "license_note": "Przykład autorski; nie jest cytatem korpusowym.",
+      "genre": "przykład dydaktyczny",
+      "medium": "tekst"
+    },
+    "annotation": {
+      "construction": "left_dislocation",
+      "certainty": "high",
+      "spans": [
+        {
+          "id": "s1",
+          "text": "Questo libro",
+          "start": 0,
+          "end": 12,
+          "syntactic_role": "dislocated_object",
+          "information_role": "topic",
+          "relation_to": "s2",
+          "note": "Dopełnienie przed klauzą."
+        },
+        {
+          "id": "s2",
+          "text": "l'",
+          "start": 14,
+          "end": 16,
+          "syntactic_role": "resumptive_clitic",
+          "information_role": null,
+          "relation_to": "s1",
+          "note": "Klityk w klauzie odnosi się do książki."
+        },
+        {
+          "id": "s3",
+          "text": "ho comprato",
+          "start": 16,
+          "end": 27,
+          "syntactic_role": "predicate",
+          "information_role": null,
+          "relation_to": null,
+          "note": "Orzeczenie."
+        },
+        {
+          "id": "s4",
+          "text": "ieri",
+          "start": 28,
+          "end": 32,
+          "syntactic_role": "time_adjunct",
+          "information_role": null,
+          "relation_to": null,
+          "note": "Okolicznik czasu."
+        }
+      ],
+      "neutral_variant": {
+        "text": "Ho comprato questo libro ieri.",
+        "status": "proposed_paraphrase",
+        "note": "Parafraza porównawcza, nie jedyny możliwy odpowiednik."
+      },
+      "pragmatic_function": [
+        "topic_continuity"
+      ],
+      "pragmatic_note": "Interpretacja zależy od skonstruowanego kontekstu; bez niego nie byłaby rozstrzygająca.",
+      "information_note": "W podanym kontekście książka jest już znanym przedmiotem rozmowy.",
+      "prosody_note": null,
+      "evidence_note": "Dopełnienie po lewej stronie jest podjęte klitykiem.",
+      "annotator_id": "demo",
+      "review_status": "reviewed"
+    }
+  },
+  {
+    "id": "ref-right-001",
+    "schema_version": "1.0",
+    "sentence": "L'ho comprato ieri, questo libro.",
+    "context": {
+      "preceding": "Hai già comprato quel libro?",
+      "following": null,
+      "context_note": "Kontekst skonstruowany do przykładu dydaktycznego."
+    },
+    "source": {
+      "source_type": "constructed",
+      "publisher": null,
+      "title": null,
+      "url": null,
+      "accessed_at": null,
+      "published_at": null,
+      "speaker": null,
+      "timestamp": null,
+      "license_note": "Przykład autorski; nie jest cytatem korpusowym.",
+      "genre": "przykład dydaktyczny",
+      "medium": "tekst"
+    },
+    "annotation": {
+      "construction": "right_dislocation",
+      "certainty": "high",
+      "spans": [
+        {
+          "id": "s1",
+          "text": "L'",
+          "start": 0,
+          "end": 2,
+          "syntactic_role": "resumptive_clitic",
+          "information_role": null,
+          "relation_to": "s3",
+          "note": "Klityk wyprzedza składnik prawostronny."
+        },
+        {
+          "id": "s2",
+          "text": "ho comprato",
+          "start": 2,
+          "end": 13,
+          "syntactic_role": "predicate",
+          "information_role": null,
+          "relation_to": null,
+          "note": "Orzeczenie."
+        },
+        {
+          "id": "s3",
+          "text": "questo libro",
+          "start": 20,
+          "end": 32,
+          "syntactic_role": "dislocated_object",
+          "information_role": "background",
+          "relation_to": "s1",
+          "note": "Składnik po prawej stronie klauzy."
+        },
+        {
+          "id": "s4",
+          "text": "ieri",
+          "start": 14,
+          "end": 18,
+          "syntactic_role": "time_adjunct",
+          "information_role": null,
+          "relation_to": null,
+          "note": "Okolicznik czasu."
+        }
+      ],
+      "neutral_variant": {
+        "text": "Ho comprato questo libro ieri.",
+        "status": "proposed_paraphrase",
+        "note": "Parafraza porównawcza, nie jedyny możliwy odpowiednik."
+      },
+      "pragmatic_function": [
+        "referent_clarification"
+      ],
+      "pragmatic_note": "Interpretacja zależy od skonstruowanego kontekstu; bez niego nie byłaby rozstrzygająca.",
+      "information_note": "W kontekście pytania książka jest już aktywna w rozmowie; rozstrzygnięcie prozodyczne wymagałoby nagrania.",
+      "prosody_note": null,
+      "evidence_note": "Klityk występuje przed rzeczownikowym dopełnieniem na prawym obrzeżu.",
+      "annotator_id": "demo",
+      "review_status": "reviewed"
+    }
+  },
+  {
+    "id": "ref-cleft-001",
+    "schema_version": "1.0",
+    "sentence": "È Maria che ha preparato la cena.",
+    "context": {
+      "preceding": "Chi ha preparato la cena?",
+      "following": null,
+      "context_note": "Kontekst skonstruowany do przykładu dydaktycznego."
+    },
+    "source": {
+      "source_type": "constructed",
+      "publisher": null,
+      "title": null,
+      "url": null,
+      "accessed_at": null,
+      "published_at": null,
+      "speaker": null,
+      "timestamp": null,
+      "license_note": "Przykład autorski; nie jest cytatem korpusowym.",
+      "genre": "przykład dydaktyczny",
+      "medium": "tekst"
+    },
+    "annotation": {
+      "construction": "cleft",
+      "certainty": "high",
+      "spans": [
+        {
+          "id": "s1",
+          "text": "È",
+          "start": 0,
+          "end": 1,
+          "syntactic_role": "copula",
+          "information_role": null,
+          "relation_to": null,
+          "note": "Kopuła konstrukcji rozszczepionej."
+        },
+        {
+          "id": "s2",
+          "text": "Maria",
+          "start": 2,
+          "end": 7,
+          "syntactic_role": "cleft_focus",
+          "information_role": "focus",
+          "relation_to": null,
+          "note": "Wskazany uczestnik zdarzenia."
+        },
+        {
+          "id": "s3",
+          "text": "che ha preparato la cena",
+          "start": 8,
+          "end": 32,
+          "syntactic_role": "relative_clause",
+          "information_role": "background",
+          "relation_to": null,
+          "note": "Człon zdaniowy."
+        }
+      ],
+      "neutral_variant": {
+        "text": "Maria ha preparato la cena.",
+        "status": "proposed_paraphrase",
+        "note": "Parafraza porównawcza, nie jedyny możliwy odpowiednik."
+      },
+      "pragmatic_function": [
+        "answer_focus"
+      ],
+      "pragmatic_note": "Interpretacja zależy od skonstruowanego kontekstu; bez niego nie byłaby rozstrzygająca.",
+      "information_note": "Pytanie poprzedzające uzasadnia odczytanie „Maria” jako fokusu.",
+      "prosody_note": null,
+      "evidence_note": "Konstrukcja è X che… wyróżnia Marię na tle pytania o wykonawcę.",
+      "annotator_id": "demo",
+      "review_status": "reviewed"
+    }
+  },
+  {
+    "id": "ref-left-002",
+    "schema_version": "1.0",
+    "sentence": "A Giulia, le ho scritto stamattina.",
+    "context": {
+      "preceding": "Hai contattato Giulia?",
+      "following": null,
+      "context_note": "Kontekst skonstruowany do przykładu dydaktycznego."
+    },
+    "source": {
+      "source_type": "constructed",
+      "publisher": null,
+      "title": null,
+      "url": null,
+      "accessed_at": null,
+      "published_at": null,
+      "speaker": null,
+      "timestamp": null,
+      "license_note": "Przykład autorski; nie jest cytatem korpusowym.",
+      "genre": "przykład dydaktyczny",
+      "medium": "tekst"
+    },
+    "annotation": {
+      "construction": "left_dislocation",
+      "certainty": "high",
+      "spans": [
+        {
+          "id": "s1",
+          "text": "A Giulia",
+          "start": 0,
+          "end": 8,
+          "syntactic_role": "dislocated_indirect_object",
+          "information_role": "topic",
+          "relation_to": "s2",
+          "note": "Adresat na lewej krawędzi."
+        },
+        {
+          "id": "s2",
+          "text": "le",
+          "start": 10,
+          "end": 12,
+          "syntactic_role": "resumptive_clitic",
+          "information_role": null,
+          "relation_to": "s1",
+          "note": "Klityk celownikowy."
+        },
+        {
+          "id": "s3",
+          "text": "ho scritto",
+          "start": 13,
+          "end": 23,
+          "syntactic_role": "predicate",
+          "information_role": null,
+          "relation_to": null,
+          "note": "Orzeczenie."
+        },
+        {
+          "id": "s4",
+          "text": "stamattina",
+          "start": 24,
+          "end": 34,
+          "syntactic_role": "time_adjunct",
+          "information_role": null,
+          "relation_to": null,
+          "note": "Okolicznik czasu."
+        }
+      ],
+      "neutral_variant": {
+        "text": "Ho scritto a Giulia stamattina.",
+        "status": "proposed_paraphrase",
+        "note": "Parafraza porównawcza, nie jedyny możliwy odpowiednik."
+      },
+      "pragmatic_function": [
+        "topic_continuity"
+      ],
+      "pragmatic_note": "Interpretacja zależy od skonstruowanego kontekstu; bez niego nie byłaby rozstrzygająca.",
+      "information_note": "W kontekście pytania Giulia jest znanym referentem.",
+      "prosody_note": null,
+      "evidence_note": "Adresat jest poprzedzony i podjęty klitykiem celownikowym.",
+      "annotator_id": "demo",
+      "review_status": "reviewed"
+    }
+  }
+]
