@@ -876,13 +876,16 @@ input:disabled {
   gap: 5px;
 }
 
-.optional-collapsed {
+.form-field[data-optional-field] {
   min-height: 41px;
-  justify-content: center;
   padding: 8px 10px;
   border: 1px dashed var(--line);
   border-radius: 9px;
   background: #fbfcfa;
+}
+
+.form-field[data-optional-field] > .field-heading {
+  min-height: 23px;
 }
 
 .optional-toggle {
