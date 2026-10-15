@@ -3,7 +3,7 @@
   "title": "Frasi reference example v1",
   "type": "object",
   "additionalProperties": false,
-  "required": ["id", "schema_version", "sentence", "context", "source", "annotation"],
+  "required": ["id", "schema_version", "sentence", "context", "source", "annotation", "translations"],
   "properties": {
     "id": { "type": "string", "pattern": "^[a-z0-9][a-z0-9-]{2,63}$" },
     "schema_version": { "const": "1.0" },
@@ -34,6 +34,14 @@
         "medium": { "type": "string" }
       }
     },
+    "translations": {
+      "type": "object", "additionalProperties": false,
+      "required": ["pl", "it"],
+      "properties": {
+        "pl": { "$ref": "#/definitions/display_translation" },
+        "it": { "$ref": "#/definitions/display_translation" }
+      }
+    },
     "annotation": {
       "type": "object", "additionalProperties": false,
       "required": ["construction", "certainty", "spans", "neutral_variant", "pragmatic_function", "pragmatic_note", "evidence_note", "annotator_id", "review_status", "information_note", "prosody_note"],
@@ -58,6 +66,18 @@
     }
   },
   "definitions": {
+    "display_translation": {
+      "type": "object", "additionalProperties": false,
+      "required": ["information_note", "pragmatic_note", "evidence_note", "neutral_note", "prosody_note", "span_notes"],
+      "properties": {
+        "information_note": { "type": "string" },
+        "pragmatic_note": { "type": "string" },
+        "evidence_note": { "type": "string" },
+        "neutral_note": { "type": "string" },
+        "prosody_note": { "type": ["string", "null"] },
+        "span_notes": { "type": "object", "additionalProperties": { "type": "string" } }
+      }
+    },
     "span": {
       "type": "object", "additionalProperties": false,
       "required": ["id", "text", "start", "end", "syntactic_role", "information_role", "relation_to", "note"],

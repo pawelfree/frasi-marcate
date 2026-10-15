@@ -17,6 +17,13 @@ test('rozbieżność offsetu i tekstu jest odrzucana', () => {
   assert.equal(store.validate(example).valid, false);
 });
 
+test('błąd walidacji jest opisany w wybranym języku', () => {
+  const store = new ExampleStore();
+  const example = JSON.parse(readFileSync('data/seed.json', 'utf8'))[0];
+  example.annotation.spans[0].end--;
+  assert.match(store.validate(example, 'it').errors.join(' '), /il testo non corrisponde/);
+});
+
 test('niepełny rekord zwraca błędy schematu zamiast wyjątku', () => {
   const store = new ExampleStore();
   assert.equal(store.validate({ sentence: 'Ciao.' }).valid, false);

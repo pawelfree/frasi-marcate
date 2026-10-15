@@ -1,29 +1,16 @@
-const $=s=>document.querySelector(s);let records=[];let selected='';
-const status=(message,bad=false)=>{const node=$('#status');node.textContent=message;node.style.color=bad?'#a43a38':'#1d6d5b'};
+const $=selector=>document.querySelector(selector),t=(key,vars)=>I18n.t(key,vars);let records=[],selected='',schemaText='';
+function status(message,bad=false){const node=$('#status');node.textContent=message;node.style.color=bad?'#a43a38':'#1d6d5b'}
 function auth(){return 'Basic '+btoa('admin:'+$('#password').value)}
-async function api(path,method='GET',body){const res=await fetch('/api/admin/'+path,{method,headers:{authorization:auth(),...(body?{'content-type':'application/json'}:{})},body:body?JSON.stringify(body):undefined});let data;try{data=await res.json()}catch{data={}}if(!res.ok)throw Error(data.errors?.join('\n')||data.message||`HTTP ${res.status}`);return data}
-function showList(){const root=$('#records');root.replaceChildren();for(const x of records){const b=document.createElement('button');b.textContent=`${x.annotation.review_status==='reviewed'?'●':'○'} ${x.sentence}`;b.className=x.id===selected?'active':'';b.onclick=()=>{selected=x.id;$('#json').value=JSON.stringify(x,null,2);showList();status('Wczytano '+x.id)};root.append(b)}}
-async function load(){try{records=await api('examples');showList();status(`Wczytano ${records.length} rekordów.`)}catch(e){status(e.message,true)}}
-$('#load').onclick=load;$('#new').onclick=()=>{selected='';$('#json').value=JSON.stringify({id:'ref-new-001',schema_version:'1.0',sentence:'',context:{preceding:null,following:null,context_note:''},source:{source_type:'constructed',publisher:null,title:null,url:null,accessed_at:null,published_at:null,speaker:null,timestamp:null,license_note:'',genre:'przykład dydaktyczny',medium:'tekst'},annotation:{construction:'ambiguous',certainty:'low',spans:[],neutral_variant:null,pragmatic_function:[],pragmatic_note:'',information_note:'',prosody_note:null,evidence_note:'',annotator_id:'',review_status:'draft'}},null,2);showList();status('Uzupełnij rekord, następnie uruchom walidację.')};
-function parse(){try{return JSON.parse($('#json').value)}catch(e){throw Error('Niepoprawna składnia JSON: '+e.message)}}
-$('#validate').onclick=async()=>{try{const result=await api('validate','POST',parse());status(result.valid?'Rekord poprawny.':result.errors.join('\n'),!result.valid)}catch(e){status(e.message,true)}};
-$('#save').onclick=async()=>{try{const result=await api('examples','POST',parse());selected=result.id;await load();status('Zapisano rekord '+selected)}catch(e){status(e.message,true)}};
-$('#delete').onclick=async()=>{try{if(!selected)throw Error('Najpierw wybierz zapisany rekord.');if(!confirm('Usunąć rekord '+selected+'?'))return;await api('examples/'+encodeURIComponent(selected),'DELETE');selected='';$('#json').value='';await load();status('Rekord usunięty.')}catch(e){status(e.message,true)}};
-let schemaText='';
-$('#show-schema').onclick=async()=>{
-  const dialog=$('#schema-dialog');
-  dialog.showModal();
-  if(schemaText)return;
-  try{
-    const response=await fetch('/example.schema.json');
-    if(!response.ok)throw Error(`HTTP ${response.status}`);
-    schemaText=JSON.stringify(await response.json(),null,2);
-    $('#schema-content').textContent=schemaText;
-    $('#copy-schema').disabled=false;
-  }catch(error){$('#schema-content').textContent='Nie udało się wczytać schematu: '+error.message}
-};
-$('#copy-schema').onclick=async()=>{
-  try{await navigator.clipboard.writeText(schemaText);$('#schema-status').textContent='Skopiowano.'}
-  catch{$('#schema-status').textContent='Nie udało się skopiować schematu.'}
-};
+async function api(path,method='GET',body){const response=await fetch('/api/admin/'+path,{method,headers:{authorization:auth(),'accept-language':I18n.language,...(body?{'content-type':'application/json'}:{})},body:body?JSON.stringify(body):undefined});let data;try{data=await response.json()}catch{data={}}if(!response.ok){if(response.status===401)throw Error(t('unauthorized'));if(response.status===400&&data.errors)throw Error(data.errors.join('\n'));throw Error(t('serverError')+` (HTTP ${response.status})`)}return data}
+function showList(){const root=$('#records');root.replaceChildren();for(const record of records){const button=document.createElement('button');button.textContent=`${record.annotation.review_status==='reviewed'?'●':'○'} ${record.sentence}`;button.className=record.id===selected?'active':'';button.onclick=()=>{selected=record.id;$('#json').value=JSON.stringify(record,null,2);showList();status(`${t('loadedRecord')} ${record.id}`)};root.append(button)}}
+async function load(){try{records=await api('examples');showList();status(t('loadedRecords',{count:records.length}))}catch(error){status(error.message,true)}}
+$('#load').onclick=load;
+$('#new').onclick=()=>{selected='';$('#json').value=JSON.stringify({id:'ref-new-001',schema_version:'1.0',sentence:'',context:{preceding:null,following:null,context_note:''},source:{source_type:'constructed',publisher:null,title:null,url:null,accessed_at:null,published_at:null,speaker:null,timestamp:null,license_note:'',genre:'constructed_example',medium:'text'},annotation:{construction:'ambiguous',certainty:'low',spans:[],neutral_variant:null,pragmatic_function:[],pragmatic_note:'',information_note:'',prosody_note:null,evidence_note:'',annotator_id:'',review_status:'draft'},translations:{pl:{information_note:'',pragmatic_note:'',evidence_note:'',neutral_note:'',prosody_note:null,span_notes:{}},it:{information_note:'',pragmatic_note:'',evidence_note:'',neutral_note:'',prosody_note:null,span_notes:{}}}},null,2);showList();status(t('newRecordHint'))};
+function parse(){try{return JSON.parse($('#json').value)}catch(error){throw Error(`${t('jsonSyntaxError')}: ${error.message}`)}}
+$('#validate').onclick=async()=>{try{const result=await api('validate','POST',parse());status(result.valid?t('recordValid'):result.errors.join('\n'),!result.valid)}catch(error){status(error.message,true)}};
+$('#save').onclick=async()=>{try{const result=await api('examples','POST',parse());selected=result.id;await load();status(`${t('savedRecord')} ${selected}`)}catch(error){status(error.message,true)}};
+$('#delete').onclick=async()=>{try{if(!selected)throw Error(t('selectRecordFirst'));if(!confirm(t('deleteConfirm',{id:selected})))return;await api('examples/'+encodeURIComponent(selected),'DELETE');selected='';$('#json').value='';await load();status(t('recordDeleted'))}catch(error){status(error.message,true)}};
+$('#show-schema').onclick=async()=>{const dialog=$('#schema-dialog');dialog.showModal();if(schemaText)return;try{const response=await fetch('/example.schema.json');if(!response.ok)throw Error(`HTTP ${response.status}`);schemaText=JSON.stringify(await response.json(),null,2);$('#schema-content').removeAttribute('data-i18n');$('#schema-content').textContent=schemaText;$('#copy-schema').disabled=false}catch(error){$('#schema-content').textContent=`${t('schemaLoadError')}: ${error.message}`}};
+$('#copy-schema').onclick=async()=>{try{await navigator.clipboard.writeText(schemaText);$('#schema-status').textContent=t('copied')}catch{$('#schema-status').textContent=t('copyError')}};
 $('#schema-dialog').addEventListener('click',event=>{if(event.target===event.currentTarget)event.currentTarget.close()});
+document.addEventListener('languagechange',()=>{status('');$('#schema-status').textContent='';if(schemaText)$('#schema-content').textContent=schemaText});

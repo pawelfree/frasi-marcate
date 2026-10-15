@@ -19,6 +19,9 @@ npm run start:dev
 
 Otwórz `http://127.0.0.1:3000/` i `http://127.0.0.1:3000/admin.html`. Hasło jest używane tylko do żądań API panelu; serwer nasłuchuje wyłącznie na komputerze lokalnym.
 
+Przełącznik **PL / IT** znajduje się w nagłówku obu stron. Wybór jest zapamiętywany w przeglądarce. Opisy przykładów są zapisane w obu językach w polu `translations`; nowy rekord przygotowany w panelu zawiera miejsce na obie wersje.
+Wcześniej dodane własne rekordy bez pola `translations` trzeba uzupełnić o wersje PL i IT przed ponownym zapisem w panelu.
+
 ## Moduły
 
 - **Esplora le strutture:** filtr konstrukcji, segmenty i ich relacje, kontekst, źródło, wariant porównawczy, struktura informacyjna i jawny brak danych prozodycznych.
@@ -28,7 +31,7 @@ Otwórz `http://127.0.0.1:3000/` i `http://127.0.0.1:3000/admin.html`. Hasło je
 
 ## Dane
 
-Schemat znajduje się w [`schema/example.schema.json`](schema/example.schema.json). Walidator sprawdza również zakresy `[start,end)` w punktach kodowych Unicode, unikalność identyfikatorów segmentów i poprawność relacji. Przy pierwszym uruchomieniu [`data/seed.json`](data/seed.json) jest kopiowany do `data/examples.json`. Plik roboczy jest ignorowany przez Git; zapis odbywa się przez plik tymczasowy i zmianę nazwy. Przy kilku równoległych instancjach serwera potrzebna byłaby baza z blokowaniem transakcyjnym.
+Schemat znajduje się w [`schema/example.schema.json`](schema/example.schema.json). Walidator sprawdza również zakresy `[start,end)` w punktach kodowych Unicode, unikalność identyfikatorów segmentów, poprawność relacji oraz obecność opisów PL/IT każdego segmentu. Przy pierwszym uruchomieniu [`data/seed.json`](data/seed.json) jest kopiowany do `data/examples.json`. Plik roboczy jest ignorowany przez Git; zapis odbywa się przez plik tymczasowy i zmianę nazwy. Przy kilku równoległych instancjach serwera potrzebna byłaby baza z blokowaniem transakcyjnym.
 
 Seed zawiera **cztery skonstruowane przykłady dydaktyczne**, a nie cytaty z korpusu. Nie przedstawiają zbioru 60 ręcznie zweryfikowanych przykładów planowanego w `fc.md`; ten trzeba opracować osobno wraz ze źródłami i prawem wykorzystania. Zbiór testowy do ewaluacji AI powinien być odrębny od `data/examples.json`.
 

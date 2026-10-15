@@ -80,6 +80,34 @@
       "evidence_note": "Dopełnienie po lewej stronie jest podjęte klitykiem.",
       "annotator_id": "demo",
       "review_status": "reviewed"
+    },
+    "translations": {
+      "pl": {
+        "information_note": "W podanym kontekście książka jest już znanym przedmiotem rozmowy.",
+        "pragmatic_note": "Interpretacja zależy od skonstruowanego kontekstu; bez niego nie byłaby rozstrzygająca.",
+        "evidence_note": "Dopełnienie po lewej stronie jest podjęte klitykiem.",
+        "neutral_note": "Parafraza porównawcza, nie jedyny możliwy odpowiednik.",
+        "span_notes": {
+          "s1": "Dopełnienie przed klauzą.",
+          "s2": "Klityk w klauzie odnosi się do książki.",
+          "s3": "Orzeczenie.",
+          "s4": "Okolicznik czasu."
+        },
+        "prosody_note": null
+      },
+      "it": {
+        "information_note": "Nel contesto proposto, il libro è già noto ai partecipanti alla conversazione.",
+        "pragmatic_note": "L’interpretazione dipende dal contesto costruito; senza di esso non sarebbe conclusiva.",
+        "evidence_note": "L’oggetto a sinistra della proposizione è ripreso da un clitico.",
+        "neutral_note": "Parafrasi di confronto, non l’unica formulazione possibile.",
+        "span_notes": {
+          "s1": "Oggetto collocato prima della proposizione.",
+          "s2": "Il clitico nella proposizione rinvia al libro.",
+          "s3": "Predicato.",
+          "s4": "Complemento di tempo."
+        },
+        "prosody_note": null
+      }
     }
   },
   {
@@ -163,6 +191,34 @@
       "evidence_note": "Klityk występuje przed rzeczownikowym dopełnieniem na prawym obrzeżu.",
       "annotator_id": "demo",
       "review_status": "reviewed"
+    },
+    "translations": {
+      "pl": {
+        "information_note": "W kontekście pytania książka jest już aktywna w rozmowie; rozstrzygnięcie prozodyczne wymagałoby nagrania.",
+        "pragmatic_note": "Interpretacja zależy od skonstruowanego kontekstu; bez niego nie byłaby rozstrzygająca.",
+        "evidence_note": "Klityk występuje przed rzeczownikowym dopełnieniem na prawym obrzeżu.",
+        "neutral_note": "Parafraza porównawcza, nie jedyny możliwy odpowiednik.",
+        "span_notes": {
+          "s1": "Klityk wyprzedza składnik prawostronny.",
+          "s2": "Orzeczenie.",
+          "s3": "Składnik po prawej stronie klauzy.",
+          "s4": "Okolicznik czasu."
+        },
+        "prosody_note": null
+      },
+      "it": {
+        "information_note": "Nel contesto della domanda, il libro è già presente nel discorso; per una valutazione prosodica servirebbe una registrazione.",
+        "pragmatic_note": "L’interpretazione dipende dal contesto costruito; senza di esso non sarebbe conclusiva.",
+        "evidence_note": "Il clitico precede l’oggetto nominale situato alla periferia destra.",
+        "neutral_note": "Parafrasi di confronto, non l’unica formulazione possibile.",
+        "span_notes": {
+          "s1": "Il clitico precede il costituente a destra.",
+          "s2": "Predicato.",
+          "s3": "Costituente alla periferia destra della proposizione.",
+          "s4": "Complemento di tempo."
+        },
+        "prosody_note": null
+      }
     }
   },
   {
@@ -236,6 +292,32 @@
       "evidence_note": "Konstrukcja è X che… wyróżnia Marię na tle pytania o wykonawcę.",
       "annotator_id": "demo",
       "review_status": "reviewed"
+    },
+    "translations": {
+      "pl": {
+        "information_note": "Pytanie poprzedzające uzasadnia odczytanie „Maria” jako fokusu.",
+        "pragmatic_note": "Interpretacja zależy od skonstruowanego kontekstu; bez niego nie byłaby rozstrzygająca.",
+        "evidence_note": "Konstrukcja è X che… wyróżnia Marię na tle pytania o wykonawcę.",
+        "neutral_note": "Parafraza porównawcza, nie jedyny możliwy odpowiednik.",
+        "span_notes": {
+          "s1": "Kopuła konstrukcji rozszczepionej.",
+          "s2": "Wskazany uczestnik zdarzenia.",
+          "s3": "Człon zdaniowy."
+        },
+        "prosody_note": null
+      },
+      "it": {
+        "information_note": "La domanda precedente giustifica l’interpretazione di «Maria» come focus.",
+        "pragmatic_note": "L’interpretazione dipende dal contesto costruito; senza di esso non sarebbe conclusiva.",
+        "evidence_note": "La struttura è X che… mette in rilievo Maria in risposta alla domanda sull’agente.",
+        "neutral_note": "Parafrasi di confronto, non l’unica formulazione possibile.",
+        "span_notes": {
+          "s1": "Copula della costruzione scissa.",
+          "s2": "Partecipante messo in rilievo.",
+          "s3": "Proposizione relativa."
+        },
+        "prosody_note": null
+      }
     }
   },
   {
@@ -319,6 +401,34 @@
       "evidence_note": "Adresat jest poprzedzony i podjęty klitykiem celownikowym.",
       "annotator_id": "demo",
       "review_status": "reviewed"
+    },
+    "translations": {
+      "pl": {
+        "information_note": "W kontekście pytania Giulia jest znanym referentem.",
+        "pragmatic_note": "Interpretacja zależy od skonstruowanego kontekstu; bez niego nie byłaby rozstrzygająca.",
+        "evidence_note": "Adresat jest poprzedzony i podjęty klitykiem celownikowym.",
+        "neutral_note": "Parafraza porównawcza, nie jedyny możliwy odpowiednik.",
+        "span_notes": {
+          "s1": "Adresat na lewej krawędzi.",
+          "s2": "Klityk celownikowy.",
+          "s3": "Orzeczenie.",
+          "s4": "Okolicznik czasu."
+        },
+        "prosody_note": null
+      },
+      "it": {
+        "information_note": "Nel contesto della domanda, Giulia è un referente già noto.",
+        "pragmatic_note": "L’interpretazione dipende dal contesto costruito; senza di esso non sarebbe conclusiva.",
+        "evidence_note": "Il destinatario è anticipato e ripreso dal clitico dativo.",
+        "neutral_note": "Parafrasi di confronto, non l’unica formulazione possibile.",
+        "span_notes": {
+          "s1": "Destinatario alla periferia sinistra.",
+          "s2": "Clitico dativo.",
+          "s3": "Predicato.",
+          "s4": "Complemento di tempo."
+        },
+        "prosody_note": null
+      }
     }
   }
 ]

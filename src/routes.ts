@@ -20,17 +20,17 @@ export class AppController {
     if (!body || typeof body.sentence !== 'string' || body.sentence.trim().length < 3 || body.sentence.length > 1000 || (body.context != null && (typeof body.context !== 'string' || body.context.length > 2000))) {
       throw new BadRequestException('Podaj zdanie (3–1000 znaków) i opcjonalny kontekst (do 2000 znaków).');
     }
-    return this.ai.analyze(body.sentence, body.context || '');
+    return this.ai.analyze(body.sentence, body.context || '', body.language === 'it' ? 'it' : 'pl');
   }
 
   @Get('admin/examples')
   adminExamples(@Headers('authorization') auth?: string) { this.authorize(auth); return this.store.all(true); }
 
   @Post('admin/validate')
-  validate(@Headers('authorization') auth: string | undefined, @Body() body: unknown) { this.authorize(auth); return this.store.validate(body); }
+  validate(@Headers('authorization') auth: string | undefined, @Headers('accept-language') language: string | undefined, @Body() body: unknown) { this.authorize(auth); return this.store.validate(body, language?.startsWith('it') ? 'it' : 'pl'); }
 
   @Post('admin/examples')
-  save(@Headers('authorization') auth: string | undefined, @Body() body: unknown) { this.authorize(auth); return this.store.save(body); }
+  save(@Headers('authorization') auth: string | undefined, @Headers('accept-language') language: string | undefined, @Body() body: unknown) { this.authorize(auth); return this.store.save(body, language?.startsWith('it') ? 'it' : 'pl'); }
 
   @Delete('admin/examples/:id')
   remove(@Headers('authorization') auth: string | undefined, @Param('id') id: string) { this.authorize(auth); return this.store.remove(id); }

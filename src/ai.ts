@@ -2,11 +2,11 @@ import { Injectable, ServiceUnavailableException, BadGatewayException } from '@n
 
 @Injectable()
 export class AiService {
-  async analyze(sentence: string, context: string) {
+  async analyze(sentence: string, context: string, language: 'pl' | 'it') {
     if (!process.env.OPENAI_API_KEY || !process.env.OPENAI_MODEL) {
       throw new ServiceUnavailableException('Analiza AI wymaga OPENAI_API_KEY i OPENAI_MODEL w .env.');
     }
-    const instructions = `Analizuj współczesne zdanie włoskie. Klasy: left_dislocation, right_dislocation, cleft, none, ambiguous. Oddziel widoczną składnię od hipotezy pragmatycznej. Jeśli brak kontekstu, użyj niepewności. Zwróć wyłącznie JSON z polami: construction, certainty (high/medium/low), spans (id,text,start,end,syntactic_role,information_role,relation_to,note), neutral_variant (string|null), information_note, pragmatic_note, evidence_note, needs_more_context (boolean). Offsety to punkty kodowe Unicode [start,end). Nie wymyślaj źródła ani prozodii.`;
+    const instructions = `Analizuj współczesne zdanie włoskie. Klasy: left_dislocation, right_dislocation, cleft, none, ambiguous. Oddziel widoczną składnię od hipotezy pragmatycznej. Jeśli brak kontekstu, użyj niepewności. Zwróć wyłącznie JSON z polami: construction, certainty (high/medium/low), spans (id,text,start,end,syntactic_role,information_role,relation_to,note), neutral_variant (string|null), information_note, pragmatic_note, evidence_note, needs_more_context (boolean). Offsety to punkty kodowe Unicode [start,end). Nie wymyślaj źródła ani prozodii. Wszystkie opisy w polach note, information_note, pragmatic_note i evidence_note napisz ${language === 'it' ? 'po włosku' : 'po polsku'}.`;
     let response: Response;
     try {
       response = await fetch('https://api.openai.com/v1/chat/completions', {

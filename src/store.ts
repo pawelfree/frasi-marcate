@@ -31,29 +31,54 @@ export class ExampleStore {
     return item;
   }
 
-  validate(item: unknown): { valid: boolean; errors: string[] } {
+  validate(item: unknown, language: 'pl' | 'it' = 'pl'): { valid: boolean; errors: string[] } {
     const valid = this.validator(item);
-    const errors = valid ? [] : (this.validator.errors || []).map(e => `${e.instancePath || '/'} ${e.message}`);
+    const errors = valid ? [] : (this.validator.errors || []).map(e => {
+      const path = e.instancePath || '/';
+      const field = String((e.params as { missingProperty?: string }).missingProperty || '');
+      const messages: Record<string, [string, string]> = {
+        required: [`brak wymaganego pola ${field}`, `manca il campo obbligatorio ${field}`],
+        additionalProperties: ['niedozwolone dodatkowe pole', 'campo aggiuntivo non consentito'],
+        type: ['niepoprawny typ wartości', 'tipo di valore non valido'],
+        enum: ['wartość spoza dozwolonego zbioru', 'valore non consentito'],
+        const: ['wartość musi być stała', 'il valore deve essere costante'],
+        pattern: ['niepoprawny format tekstu', 'formato del testo non valido'],
+        minLength: ['tekst jest za krótki', 'testo troppo corto'],
+        maxLength: ['tekst jest za długi', 'testo troppo lungo'],
+        minimum: ['wartość jest za mała', 'valore troppo piccolo'],
+        maximum: ['wartość jest za duża', 'valore troppo grande'],
+        oneOf: ['wartość nie pasuje do żadnego wariantu', 'il valore non corrisponde a nessuna variante'],
+      };
+      return `${path}: ${messages[e.keyword]?.[language === 'it' ? 1 : 0] || (language === 'it' ? 'valore non valido' : 'niepoprawna wartość')}`;
+    });
     if (!valid || !item || typeof item !== 'object') return { valid: false, errors };
     const example = item as Example;
     const chars = Array.from(example.sentence);
     const ids = new Set<string>();
     for (const span of example.annotation.spans as Example[]) {
-      if (ids.has(span.id)) errors.push(`/annotation/spans: powtórzony id ${span.id}`);
+      if (ids.has(span.id)) errors.push(`/annotation/spans: ${language === 'it' ? 'ID duplicato' : 'powtórzony id'} ${span.id}`);
       ids.add(span.id);
       if (span.start >= span.end || chars.slice(span.start, span.end).join('') !== span.text) {
-        errors.push(`/annotation/spans/${span.id}: tekst nie odpowiada zakresowi [start,end) w punktach kodowych`);
+        errors.push(`/annotation/spans/${span.id}: ${language === 'it' ? 'il testo non corrisponde all’intervallo [start,end) in punti di codice' : 'tekst nie odpowiada zakresowi [start,end) w punktach kodowych'}`);
+      }
+    }
+    if (example.annotation.prosody_note !== null) {
+      for (const targetLanguage of ['pl', 'it']) {
+        if (!example.translations[targetLanguage].prosody_note?.trim()) errors.push(`/translations/${targetLanguage}/prosody_note: ${language === 'it' ? 'manca la descrizione prosodica' : 'brak opisu prozodii'}`);
       }
     }
     for (const span of example.annotation.spans as Example[]) {
-      if (span.relation_to !== null && !ids.has(span.relation_to)) errors.push(`/annotation/spans/${span.id}: nieznana relacja ${span.relation_to}`);
-      if (span.relation_to === span.id) errors.push(`/annotation/spans/${span.id}: relacja do samego siebie`);
+      if (span.relation_to !== null && !ids.has(span.relation_to)) errors.push(`/annotation/spans/${span.id}: ${language === 'it' ? 'relazione sconosciuta' : 'nieznana relacja'} ${span.relation_to}`);
+      if (span.relation_to === span.id) errors.push(`/annotation/spans/${span.id}: ${language === 'it' ? 'relazione con sé stesso' : 'relacja do samego siebie'}`);
+      for (const targetLanguage of ['pl', 'it']) {
+        if (!example.translations[targetLanguage].span_notes[span.id]?.trim()) errors.push(`/translations/${targetLanguage}/span_notes/${span.id}: ${language === 'it' ? 'manca la descrizione del segmento' : 'brak opisu segmentu'}`);
+      }
     }
     return { valid: errors.length === 0, errors };
   }
 
-  async save(item: unknown): Promise<Example> {
-    const checked = this.validate(item);
+  async save(item: unknown, language: 'pl' | 'it' = 'pl'): Promise<Example> {
+    const checked = this.validate(item, language);
     if (!checked.valid) throw new BadRequestException({ message: 'Błędny rekord', errors: checked.errors });
     const record = item as Example;
     await this.mutate(async records => {
