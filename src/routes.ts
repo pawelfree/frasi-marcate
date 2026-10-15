@@ -24,10 +24,16 @@ export class AppController {
   }
 
   @Get('admin/examples')
-  adminExamples(@Headers('authorization') auth?: string) { this.authorize(auth); return this.store.all(true); }
+  adminExamples() { return this.store.all(true); }
+
+  @Get('admin/config')
+  adminConfig() { return { passwordConfigured: this.passwordConfigured() }; }
+
+  @Post('admin/login')
+  adminLogin(@Headers('authorization') auth?: string) { this.authorize(auth); return { authenticated: true }; }
 
   @Post('admin/validate')
-  validate(@Headers('authorization') auth: string | undefined, @Headers('accept-language') language: string | undefined, @Body() body: unknown) { this.authorize(auth); return this.store.validate(body, language?.startsWith('it') ? 'it' : 'pl'); }
+  validate(@Headers('accept-language') language: string | undefined, @Body() body: unknown) { return this.store.validate(body, language?.startsWith('it') ? 'it' : 'pl'); }
 
   @Post('admin/examples')
   save(@Headers('authorization') auth: string | undefined, @Headers('accept-language') language: string | undefined, @Body() body: unknown) { this.authorize(auth); return this.store.save(body, language?.startsWith('it') ? 'it' : 'pl'); }
@@ -37,10 +43,16 @@ export class AppController {
 
   private authorize(header?: string) {
     const expected = process.env.ADMIN_PASSWORD;
-    if (!expected || expected === 'change-this-before-use' || !header?.startsWith('Basic ')) throw new UnauthorizedException('Ustaw ADMIN_PASSWORD i podaj hasło administratora.');
+    if (!this.passwordConfigured()) throw new UnauthorizedException('ADMIN_PASSWORD nie jest skonfigurowane.');
+    if (!header?.startsWith('Basic ')) throw new UnauthorizedException('Podaj hasło administratora.');
     let supplied = '';
     try { supplied = Buffer.from(header.slice(6), 'base64').toString('utf8').split(':').slice(1).join(':'); } catch { /* invalid header */ }
-    const a = Buffer.from(supplied); const b = Buffer.from(expected);
+    const a = Buffer.from(supplied); const b = Buffer.from(expected!);
     if (a.length !== b.length || !timingSafeEqual(a, b)) throw new UnauthorizedException('Niepoprawne hasło.');
+  }
+
+  private passwordConfigured() {
+    const password = process.env.ADMIN_PASSWORD?.trim();
+    return Boolean(password && password !== 'change-this-before-use');
   }
 }

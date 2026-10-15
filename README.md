@@ -17,7 +17,7 @@ Ustaw silne `ADMIN_PASSWORD` w `.env`, następnie:
 npm run start:dev
 ```
 
-Otwórz `http://127.0.0.1:3000/` i `http://127.0.0.1:3000/admin.html`. Hasło jest używane tylko do żądań API panelu; serwer nasłuchuje wyłącznie na komputerze lokalnym.
+Otwórz `http://127.0.0.1:3000/` i `http://127.0.0.1:3000/admin.html`. Lista zdań w panelu ładuje się automatycznie i nie wymaga hasła. Walidacja JSON również jest publiczna. Zapis i usuwanie są dostępne dopiero po zalogowaniu poprawnym `ADMIN_PASSWORD`. Bez tej zmiennej pole hasła, logowanie oraz przyciski zapisu i usuwania pozostają nieaktywne. Serwer nasłuchuje wyłącznie na komputerze lokalnym.
 
 Przełącznik **PL / IT** znajduje się w nagłówku obu stron. Wybór jest zapamiętywany w przeglądarce. Opisy przykładów są zapisane w obu językach w polu `translations`; nowy rekord przygotowany w panelu zawiera miejsce na obie wersje.
 Wcześniej dodane własne rekordy bez pola `translations` trzeba uzupełnić o wersje PL i IT przed ponownym zapisem w panelu.
