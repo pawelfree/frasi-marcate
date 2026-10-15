@@ -1,5 +1,6 @@
 node_modules/
 dist/
+public/assets/
 data/examples.json
 .env
 .DS_Store

@@ -1,0 +1,15 @@
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "ES2022",
+    "moduleResolution": "Bundler",
+    "lib": ["ES2022", "DOM"],
+    "strict": false,
+    "noEmitOnError": true,
+    "skipLibCheck": true,
+    "types": [],
+    "removeComments": false,
+    "outDir": "public/assets"
+  },
+  "include": ["frontend/**/*.ts"]
+}

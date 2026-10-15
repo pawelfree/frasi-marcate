@@ -1,11 +1,197 @@
 <!doctype html>
-<html lang="pl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Frasi marcate — laboratorium włoskiego</title><link rel="stylesheet" href="/style.css"></head>
-<body data-title-key="pageTitle">
-  <header class="site-head"><div class="shell head-row"><a class="brand" href="/">frasi<span>·</span>marcate</a><nav><a href="#esplora" data-i18n="navExplore">Esplora</a><a href="#analizza" data-i18n="navAnalyze">Analizza</a><a href="#prova" data-i18n="navQuiz">Mettiti alla prova</a><a class="admin-link" href="/admin.html" data-i18n="navAdmin">Panel admina ↗</a></nav><div class="language-switch" role="group" aria-label="Language / Język"><button type="button" data-lang="pl" aria-label="Polski">PL</button><button type="button" data-lang="it" aria-label="Italiano">IT</button></div></div></header>
-  <main class="shell">
-    <section class="hero"><div><p class="eyebrow" data-i18n="heroEyebrow">LABORATORIUM JĘZYKA WŁOSKIEGO</p><h1><span data-i18n="heroLine1">Zdanie ma więcej</span><br><span data-i18n="heroLine2">niż jeden</span> <em data-i18n="heroEm">porządek.</em></h1><p class="lead" data-i18n="heroLead">Odkrywaj włoskie konstrukcje, obserwuj ich segmenty i sprawdzaj, jak kontekst wpływa na interpretację.</p><div class="hero-actions"><a class="button primary" href="#esplora"><span data-i18n="heroExplore">Poznaj konstrukcje</span> <span>↗</span></a><a class="button secondary" href="#prova" data-i18n="heroQuiz">Sprawdź się</a></div></div><div class="hero-art" aria-hidden="true"><div class="orb orb-one"></div><div class="orb orb-two"></div><div class="art-card"><small data-i18n="heroArt">UN PICCOLO CAMBIO, UN NUOVO SIGNIFICATO</small><span>Questo libro,</span><span>l'ho comprato ieri.</span><i>↗</i></div></div></section>
-    <section class="section" id="esplora"><div class="section-heading"><div><p class="eyebrow" data-i18n="exploreEyebrow">01 / ODKRYWAJ</p><h2 data-i18n="exploreTitle">Esplora le strutture</h2><p data-i18n="exploreLead">Ręcznie opracowane przykłady. Kliknij fragment zdania, by zobaczyć jego funkcję.</p></div><span class="section-index">01</span></div><div class="filters"><label><span data-i18n="construction">Konstrukcja</span> <select id="construction-filter"><option value="" data-i18n="all">Wszystkie</option><option value="left_dislocation">Dislocazione a sinistra</option><option value="right_dislocation">Dislocazione a destra</option><option value="cleft">Frase scissa</option></select></label><label><span data-i18n="example">Przykład</span> <select id="example-filter"></select></label></div><div id="explorer" class="explorer"></div></section>
-    <section class="section" id="analizza"><div class="section-heading"><div><p class="eyebrow" data-i18n="analyzeEyebrow">02 / EKSPERYMENTUJ</p><h2 data-i18n="analyzeTitle">Analizza una frase</h2><p data-i18n="analyzeLead">Wpisz własne zdanie i opcjonalny kontekst. Wynik automatyczny wymaga konfiguracji API na serwerze.</p></div><span class="section-index">02</span></div><form id="analysis-form" class="panel form-panel"><label><span data-i18n="italianSentence">Zdanie po włosku</span><textarea id="analysis-sentence" maxlength="1000" required placeholder="Questo libro, l'ho comprato ieri."></textarea></label><label><span data-i18n="contextOptional">Kontekst (opcjonalnie)</span><textarea id="analysis-context" maxlength="2000" data-i18n-placeholder="contextPlaceholder" placeholder="Co padło wcześniej w rozmowie?"></textarea></label><button class="button primary" type="submit" data-i18n="analyzeButton">Analizuj zdanie ↗</button><p class="quiet" data-i18n="aiCaution">Wynik AI jest hipotezą; poprawny JSON nie oznacza poprawnej analizy językoznawczej.</p><div id="analysis-result" role="status"></div></form></section>
-    <section class="section" id="prova"><div class="section-heading"><div><p class="eyebrow" data-i18n="quizEyebrow">03 / ĆWICZ</p><h2 data-i18n="quizTitle">Mettiti alla prova</h2><p data-i18n="quizLead">Rozpoznaj konstrukcję i jej kluczowy składnik. Odpowiedź porównasz z zatwierdzoną anotacją.</p></div><span class="section-index">03</span></div><div class="panel quiz"><p class="eyebrow" data-i18n="yourTask">TWOJE ZADANIE</p><p id="quiz-sentence" class="quiz-sentence"></p><div class="quiz-grid"><label><span data-i18n="construction">Konstrukcja</span><select id="quiz-class"><option value="" data-i18n="choose">Wybierz…</option><option value="left_dislocation">Dislocazione a sinistra</option><option value="right_dislocation">Dislocazione a destra</option><option value="cleft">Frase scissa</option></select></label><label><span data-i18n="keySegment">Kluczowy segment</span><select id="quiz-span"><option value="" data-i18n="choose">Wybierz…</option></select></label></div><button id="quiz-check" class="button primary" data-i18n="checkAnswer">Sprawdź odpowiedź</button><button id="quiz-next" class="button text-button" data-i18n="nextSentence">Kolejne zdanie →</button><div id="quiz-result" role="status"></div></div></section>
-  </main><footer><div class="shell">Frasi marcate <span>·</span> <span data-i18n="footer">Prototyp dydaktyczny — przykłady skonstruowane, bez przypisania do korpusu.</span></div></footer><script src="/i18n.js" defer></script><script src="/app.js" defer></script>
-</body></html>
+<html lang="pl">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Frasi marcate — laboratorium włoskiego</title>
+    <link rel="stylesheet" href="/assets/style.css" />
+  </head>
+  <body data-title-key="pageTitle">
+    <header class="site-head">
+      <div class="shell head-row">
+        <a class="brand" href="/">frasi<span>·</span>marcate</a>
+        <nav>
+          <a href="#esplora" data-i18n="navExplore">Esplora</a
+          ><a href="#analizza" data-i18n="navAnalyze">Analizza</a
+          ><a href="#prova" data-i18n="navQuiz">Mettiti alla prova</a
+          ><a class="admin-link" href="/admin.html" data-i18n="navAdmin"
+            >Panel admina ↗</a
+          >
+        </nav>
+        <div class="language-switch" role="group" aria-label="Language / Język">
+          <button type="button" data-lang="pl" aria-label="Polski">PL</button
+          ><button type="button" data-lang="it" aria-label="Italiano">
+            IT
+          </button>
+        </div>
+      </div>
+    </header>
+    <main class="shell">
+      <section class="hero">
+        <div>
+          <p class="eyebrow" data-i18n="heroEyebrow">
+            LABORATORIUM JĘZYKA WŁOSKIEGO
+          </p>
+          <h1>
+            <span data-i18n="heroLine1">Zdanie ma więcej</span><br /><span
+              data-i18n="heroLine2"
+              >niż jeden</span
+            >
+            <em data-i18n="heroEm">porządek.</em>
+          </h1>
+          <p class="lead" data-i18n="heroLead">
+            Odkrywaj włoskie konstrukcje, obserwuj ich segmenty i sprawdzaj, jak
+            kontekst wpływa na interpretację.
+          </p>
+          <div class="hero-actions">
+            <a class="button primary" href="#esplora"
+              ><span data-i18n="heroExplore">Poznaj konstrukcje</span>
+              <span>↗</span></a
+            ><a class="button secondary" href="#prova" data-i18n="heroQuiz"
+              >Sprawdź się</a
+            >
+          </div>
+        </div>
+        <div class="hero-art" aria-hidden="true">
+          <div class="orb orb-one"></div>
+          <div class="orb orb-two"></div>
+          <div class="art-card">
+            <small data-i18n="heroArt"
+              >UN PICCOLO CAMBIO, UN NUOVO SIGNIFICATO</small
+            ><span>Questo libro,</span><span>l'ho comprato ieri.</span><i>↗</i>
+          </div>
+        </div>
+      </section>
+      <section class="section" id="esplora">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow" data-i18n="exploreEyebrow">01 / ODKRYWAJ</p>
+            <h2 data-i18n="exploreTitle">Esplora le strutture</h2>
+            <p data-i18n="exploreLead">
+              Ręcznie opracowane przykłady. Kliknij fragment zdania, by zobaczyć
+              jego funkcję.
+            </p>
+          </div>
+          <span class="section-index">01</span>
+        </div>
+        <div class="filters">
+          <label
+            ><span data-i18n="construction">Konstrukcja</span>
+            <select id="construction-filter">
+              <option value="" data-i18n="all">Wszystkie</option>
+              <option value="left_dislocation">Dislocazione a sinistra</option>
+              <option value="right_dislocation">Dislocazione a destra</option>
+              <option value="cleft">Frase scissa</option>
+            </select></label
+          ><label
+            ><span data-i18n="example">Przykład</span>
+            <select id="example-filter"></select
+          ></label>
+        </div>
+        <div id="explorer" class="explorer"></div>
+      </section>
+      <section class="section" id="analizza">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow" data-i18n="analyzeEyebrow">02 / EKSPERYMENTUJ</p>
+            <h2 data-i18n="analyzeTitle">Analizza una frase</h2>
+            <p data-i18n="analyzeLead">
+              Wpisz własne zdanie i opcjonalny kontekst. Wynik automatyczny
+              wymaga konfiguracji API na serwerze.
+            </p>
+          </div>
+          <span class="section-index">02</span>
+        </div>
+        <form id="analysis-form" class="panel form-panel">
+          <label
+            ><span data-i18n="italianSentence">Zdanie po włosku</span
+            ><textarea
+              id="analysis-sentence"
+              maxlength="1000"
+              required
+              placeholder="Questo libro, l'ho comprato ieri."
+            ></textarea></label
+          ><label
+            ><span data-i18n="contextOptional">Kontekst (opcjonalnie)</span
+            ><textarea
+              id="analysis-context"
+              maxlength="2000"
+              data-i18n-placeholder="contextPlaceholder"
+              placeholder="Co padło wcześniej w rozmowie?"
+            ></textarea></label
+          ><button
+            class="button primary"
+            type="submit"
+            data-i18n="analyzeButton"
+          >
+            Analizuj zdanie ↗
+          </button>
+          <p class="quiet" data-i18n="aiCaution">
+            Wynik AI jest hipotezą; poprawny JSON nie oznacza poprawnej analizy
+            językoznawczej.
+          </p>
+          <div id="analysis-result" role="status"></div>
+        </form>
+      </section>
+      <section class="section" id="prova">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow" data-i18n="quizEyebrow">03 / ĆWICZ</p>
+            <h2 data-i18n="quizTitle">Mettiti alla prova</h2>
+            <p data-i18n="quizLead">
+              Rozpoznaj konstrukcję i jej kluczowy składnik. Odpowiedź porównasz
+              z zatwierdzoną anotacją.
+            </p>
+          </div>
+          <span class="section-index">03</span>
+        </div>
+        <div class="panel quiz">
+          <p class="eyebrow" data-i18n="yourTask">TWOJE ZADANIE</p>
+          <p id="quiz-sentence" class="quiz-sentence"></p>
+          <div class="quiz-grid">
+            <label
+              ><span data-i18n="construction">Konstrukcja</span
+              ><select id="quiz-class">
+                <option value="" data-i18n="choose">Wybierz…</option>
+                <option value="left_dislocation">
+                  Dislocazione a sinistra
+                </option>
+                <option value="right_dislocation">Dislocazione a destra</option>
+                <option value="cleft">Frase scissa</option>
+              </select></label
+            ><label
+              ><span data-i18n="keySegment">Kluczowy segment</span
+              ><select id="quiz-span">
+                <option value="" data-i18n="choose">Wybierz…</option>
+              </select></label
+            >
+          </div>
+          <button
+            id="quiz-check"
+            class="button primary"
+            data-i18n="checkAnswer"
+          >
+            Sprawdź odpowiedź</button
+          ><button
+            id="quiz-next"
+            class="button text-button"
+            data-i18n="nextSentence"
+          >
+            Kolejne zdanie →
+          </button>
+          <div id="quiz-result" role="status"></div>
+        </div>
+      </section>
+    </main>
+    <footer>
+      <div class="shell">
+        Frasi marcate <span>·</span>
+        <span data-i18n="footer"
+          >Prototyp dydaktyczny — przykłady skonstruowane, bez przypisania do
+          korpusu.</span
+        >
+      </div>
+    </footer>
+    <script type="module" src="/assets/app.js"></script>
+  </body>
+</html>

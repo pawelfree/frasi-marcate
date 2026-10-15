@@ -3,9 +3,14 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
+    "build:frontend": "tsc -p tsconfig.frontend.json && sass --no-source-map frontend/style.scss public/assets/style.css",
+    "prestart": "npm run build:frontend",
     "start": "nest start",
+    "prestart:dev": "npm run build:frontend",
     "start:dev": "nest start --watch",
-    "build": "nest build",
+    "build": "npm run build:frontend && nest build",
+    "pretest": "npm run build:frontend",
+    "format": "prettier --write frontend public/*.html src test *.json *.md",
     "test": "node --test test/*.test.cjs"
   },
   "dependencies": {
@@ -22,7 +27,11 @@
     "@nestjs/cli": "^11.0.0",
     "@types/express": "^5.0.0",
     "@types/node": "^22.15.0",
+    "prettier": "^3.9.10",
+    "sass": "^1.105.1",
     "typescript": "^5.8.0"
   },
-  "engines": { "node": ">=20" }
+  "engines": {
+    "node": ">=20"
+  }
 }
