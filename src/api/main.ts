@@ -8,7 +8,7 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   app.use(json({ limit: "1mb" }));
   app.enableShutdownHooks();
-  await app.listen(Number(process.env.PORT || 3000), "127.0.0.1");
-  console.log(`Frasi: http://127.0.0.1:${process.env.PORT || 3000}`);
+  await app.listen(Number(process.env.PORT || 3000), "0.0.0.0");
+  console.log(`Frasi listening on port ${process.env.PORT || 3000}`);
 }
 bootstrap();
